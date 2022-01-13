@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
+    <link rel="stylesheet" href="neuron.css">
+    <link rel="stylesheet" href="background.css">
+    <title>Neuron Test</title>
+</head>
+<body>
+        <div class="title">
+           Spiking Neuron Visualizer
+        </div>
+        
+        <form name="buttons" class="buttons">
+            <label >
+                <input class="button" type="checkbox" name="dragMode">
+                <div><span class="material-icons-outlined">pan_tool</span></div>
+            </label>
+            <label >
+                <input class="button" type="checkbox" name="clickMode">
+                <div><i class="material-icons">ads_click</i></div>
+            </label>
+            <label>
+                <input class="button" type="checkbox" name="connectMode">
+                <div><span class="material-icons-outlined">swipe_right_alt</span></div>
+            </label>
+            <label>
+                <input class="button" type="checkbox" name="cutMode">
+                <div><span class="material-icons-outlined">content_cut</span></div>
+            </label>
+            <label>
+                <input class="button" type="button" name="add">
+                <div><span class="material-icons-outlined">add</span></div>
+            </label>
+
+            <span style="margin-left: 200px;"></span>
+
+            <label>
+                <input class="button" type="checkbox" name="play">
+                <div><span class="material-icons">play_arrow</span></div>
+            </label>
+            <label>
+                <input class="button" type="checkbox" name="pause">
+                <div><span class="material-icons-outlined">pause</span></div>
+            </label>
+        </form> 
+        
+        <div id="board">
+            <div id="demoBox"></div>
+        </div>
+        
+</body>
+<script src="neuron.js"></script>
+<script src="connection.js"></script>
+<script src="menu.js"></script>
+<script>
+    var neurons = [];
+    var connections = [];
+    setDefault();
+    
+    
+</script>
+
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
+    <link rel="stylesheet" href="neuron.css">
+    <title>Neuron Test</title>
+    <style>
+        body {
+            background: #1b2328;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            margin:auto;
+            height: 500px;
+            width: 500px;
+            border: 2px solid #ffffff;
+            z-index: 0;
+        }
+       
+        @font-face {
+            font-family: Disco;
+            src: url("mexcellent\ rg.otf");
+        }
+        .title {
+            font-size: 80px;
+            text-align: left;
+            font-family: Disco;
+            color: #00BFA5;
+            text-shadow:
+            5px 5px #304FFE,
+            10px 10px #283593
+            ;
+        }
+
+        .buttons {
+            margin-left: 50px;
+            display: flex;
+            vertical-align: auto;
+        }
+        .button {
+            display: none;
+            user-select: none;
+        }
+
+        .button + div{
+            background-color: #31444d;
+            height: 40px;
+            width: 40px;
+            margin: 10px;
+            border-radius: 25%;
+            box-shadow: 4px 4px 4px 2px #131618;
+            display: flex;
+            font-size: 25px;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            color: #131618;
+            cursor: pointer;
+        }
+
+        .button:hover + div {
+            transform: translateX(1px) translateY(1px);
+            box-shadow: 3px 3px 1px #131618;
+            background-color: #3e5c6c;
+        }
+        .button:checked + div{
+            transform: translateX(1px) translateY(1px);
+            box-shadow: 3px 3px 1px #131618;
+            background-color: #3e5c6c;
+        }
+        #board {
+            margin-top: 10px;
+            border: 3px solid #131618;
+            border-radius: 25px;
+            height: 72vh;     
+        }
+    </style>
+</head>
+<body>
+        <div class="title">
+           Spiking Neuron Visualizer
+        </div>
+        <form name="buttons" class="buttons">
+            <label >
+                <input class="button" type="checkbox" name="pan" onclick="enablePan()">
+                <div><span class="material-icons-outlined">pan_tool</span></div>
+            </label>
+            <label >
+                <input class="button" type="checkbox" name="clicker" onclick="enableClicker()">
+                <div><i class="material-icons">ads_click</i></div>
+            </label>
+            <label>
+                <input class="button" type="checkbox" name="connect" onclick="enableConnect()">
+                <div><span class="material-icons-outlined">swipe_right_alt</span></div>
+            </label>
+            <label>
+                <input class="button" type="button" name="add" onclick="addNeuron()">
+                <div><span class="material-icons-outlined">add</span></div>
+            </label>
+
+            <span style="margin-left: 200px;"></span>
+
+            <label>
+                <input class="button" type="checkbox" name="play" onclick="play()">
+                <div><span class="material-icons">play_arrow</span></div>
+            </label>
+            <label>
+                <input class="button" type="checkbox" name="pause" onclick="pause()">
+                <div><span class="material-icons-outlined">pause</span></div>
+            </label>
+        </form> 
+        <div id="board">
+        <div class="ndiv">
+            <svg class="neuron" onclick="addInput()">
+                <path class="select"
+                    d= "M 5 25 Q 5 5, 25 5 
+                        M 155 5 Q 175 5, 175 25
+                        M 175 155 Q 175 175, 155 175
+                        M 5 155 Q 5 175, 25 175"/>
+                <circle class="c0" name="c0"/>
+                <circle class="c1" name="c1"/>
+                <circle class="c2" name="c2"/>
+                <circle class="c3" name="c3"/>
+                <circle class="c4" name="c4"/>
+                <circle class="c5" name="c5"/>
+            </svg>
+        </div>     
+        <div class="ndiv">
+            <svg class="neuron" width="180" height="180" onclick="addInput()">
+                <path class="select" 
+                    d= "M 5 25 Q 5 5, 25 5 
+                        M 155 5 Q 175 5, 175 25
+                        M 175 155 Q 175 175, 155 175
+                        M 5 155 Q 5 175, 25 175"/>
+                <circle class="c0" name="c0"/>
+                <circle class="c1" name="c1"/>
+                <circle class="c2" name="c2"/>
+                <circle class="c3" name="c3"/>
+                <circle class="c4" name="c4"/>
+                <circle class="c5" name="c5"/>
+            </svg>
+        </div>  
+        <div class="ndiv">
+            <svg class="neuron" width="180" height="180" onclick="addInput()">
+                <path class="select" 
+                    d= "M 5 25 Q 5 5, 25 5 
+                        M 155 5 Q 175 5, 175 25
+                        M 175 155 Q 175 175, 155 175
+                        M 5 155 Q 5 175, 25 175"/>
+                <circle class="c0" name="c0"/>
+                <circle class="c1" name="c1"/>
+                <circle class="c2" name="c2"/>
+                <circle class="c3" name="c3"/>
+                <circle class="c4" name="c4"/>
+                <circle class="c5" name="c5"/>
+            </svg>
+        </div> 
+        <div class="ndiv">
+            <svg class="neuron" width="180" height="180" onclick="addInput()">
+                <path class="select" 
+                    d= "M 5 25 Q 5 5, 25 5 
+                        M 155 5 Q 175 5, 175 25
+                        M 175 155 Q 175 175, 155 175
+                        M 5 155 Q 5 175, 25 175"/>
+                <circle class="c0" name="c0"/>
+                <circle class="c1" name="c1"/>
+                <circle class="c2" name="c2"/>
+                <circle class="c3" name="c3"/>
+                <circle class="c4" name="c4"/>
+                <circle class="c5" name="c5"/>
+            </svg>
+        </div>  
+        <div class="ndiv">
+            <svg class="neuron" width="180" height="180" onclick="addInput()">
+                <path class="select" 
+                    d= "M 5 25 Q 5 5, 25 5 
+                        M 155 5 Q 175 5, 175 25
+                        M 175 155 Q 175 175, 155 175
+                        M 5 155 Q 5 175, 25 175"/>
+                <circle class="c0" name="c0"/>
+                <circle class="c1" name="c1"/>
+                <circle class="c2" name="c2"/>
+                <circle class="c3" name="c3"/>
+                <circle class="c4" name="c4"/>
+                <circle class="c5" name="c5"/>
+            </svg>
+        </div>      
+        </div>
+</body>
+<script>
+    
+    buttons.pan.checked = true;
+    for (let i = 0; i < document.getElementsByClassName("ndiv").length; i++){
+        dragElement(document.getElementsByClassName("ndiv")[i], i);
+        document.getElementsByClassName("ndiv")[i].style.left += 100 * i + "px";
+    }
+
+    function enableConnect() {
+        uncheckAllBut("connect");
+        for (let i = 0; i < document.getElementsByClassName("ndiv").length; i++){
+            document.getElementsByClassName("ndiv")[i].onmousedown = null;
+            document.getElementsByClassName("ndiv")[i].style.cursor = "default";
+            document.getElementsByClassName("neuron")[i].onclick = null; 
+        }
+    }
+
+    function enableClicker() {
+        uncheckAllBut("clicker");
+        for (let i = 0; i < document.getElementsByClassName("ndiv").length; i++){
+            document.getElementsByClassName("ndiv")[i].onmousedown = null;
+            document.getElementsByClassName("ndiv")[i].style.cursor = "default";
+            prepClicker(document.getElementsByClassName("neuron")[i], i); 
+        }
+    }
+
+    function enablePan() {
+        uncheckAllBut("pan");
+        for (let i = 0; i < document.getElementsByClassName("ndiv").length; i++){
+            dragElement(document.getElementsByClassName("ndiv")[i]);
+            document.getElementsByClassName("neuron")[i].onclick = null;
+        }
+    }
+
+    function uncheckAllBut(name) {
+        buttons.pan.checked = false;
+        buttons.clicker.checked = false;
+        buttons.connect.checked = false;
+        buttons[name].checked = true;
+    }
+
+    function addNeuron() {
+        buttons.clicker.checked = false;
+        buttons.pan.checked = false;
+        buttons.connect.checked = false;
+        for (let i = 0; i < document.getElementsByClassName("ndiv").length; i++){
+            prepClicker(document.getElementsByClassName("neuron")[i], i);
+        }
+    }
+
+    function prepClicker(elmnt, i) {
+        var neuronVal = 315;
+        elmnt.onclick = addInput;
+        function addInput() {
+            neuronVal -= 315/10;
+            if (neuronVal > 0) {
+                document.getElementsByClassName("c3")[i].style.transition = "0.2s";
+                document.getElementsByClassName("c3")[i].style.strokeDashoffset = neuronVal.toString();
+            }
+            else {
+                spike();
+            }
+        }
+
+        function spike() {
+            document.getElementsByClassName("c3")[i].style.strokeDashoffset = "0";
+            document.getElementsByClassName("c0")[i].style.strokeWidth = "50";
+            document.getElementsByClassName("c1")[i].style.strokeWidth = "35";
+            document.getElementsByClassName("c3")[i].style.strokeWidth = "20";
+            document.getElementsByClassName("c4")[i].style.strokeWidth = "15";
+            document.getElementsByClassName("c5")[i].style.strokeWidth = "6";
+            
+            setTimeout(function () {
+                document.getElementsByClassName("c0")[i].style.strokeWidth = "40";
+                document.getElementsByClassName("c1")[i].style.strokeWidth = "20";
+                document.getElementsByClassName("c3")[i].style.strokeWidth = "6";
+                document.getElementsByClassName("c3")[i].style.transition = "0s";
+                document.getElementsByClassName("c3")[i].style.strokeDashoffset = "315";
+                document.getElementsByClassName("c4")[i].style.strokeWidth = "0";
+                document.getElementsByClassName("c5")[i].style.strokeWidth = "0";
+                neuronVal = 315;
+            }, 300);
+        }
+    }
+
+function dragElement(elmnt) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    elmnt.style.cursor = "grab";
+        // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        elmnt.style.cursor = "grabbing";
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        inBounds(pos1, pos2);
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null; 
+        document.onmousemove = null;
+        elmnt.style.cursor = "grab";
+    }
+
+    function inBounds(x, y) {
+        return;
+    }
+}
+</script>
+
+</html>

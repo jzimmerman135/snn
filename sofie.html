@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+           background: #dc6caf;
+        }
+        h1 {
+            display: block;
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            font-weight: 200;
+            font-size: 40px;
+            height: max-content;
+            width: max-content;
+            padding: 0.5rem;
+            margin: auto;
+            color: rgb(64, 79, 194);
+            
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            transition: 1s;
+        }
+        h2 {
+            font-style: italic;
+            font-size: 25;
+        }
+        p {
+            max-width: 45ch;
+            letter-spacing: 1px;
+            margin: 3rem;
+            line-height: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hi I am sofie!!!!</h1>
+    </div>
+    <div style="display: flex;">
+    <h2>This is sofie's mantra: YEAHHHHHHHH!!!!</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis maxime debitis odio tempora, distinctio ratione et atque, perspiciatis adipisci architecto sapiente neque ullam, minus velit similique quidem mollitia corrupti? Corrupti mollitia quam recusandae in optio? Sed, obcaecati repellat? Reprehenderit velit sunt fugiat vitae nihil? Eaque, aperiam doloremque! Excepturi aliquid fugit cupiditate dignissimos voluptatum ea pariatur quis nisi vitae natus culpa facere, dolor magnam officiis et, suscipit voluptatibus ex a quia quas quo nostrum maiores placeat. Ipsam velit officia nobis atque!</p>
+    </div>
+</body>
+<script>
+    document.addEventListener('scroll', sendNameToTop);
+    function sendNameToTop() {
+        let name = document.getElementsByClassName('container')[0];
+        name.style.height = "20vh";
+    }
+</script>
+</html>

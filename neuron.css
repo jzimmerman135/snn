@@ -1,0 +1,116 @@
+.neuron {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    z-index: 3;
+    fill: transparent;
+}
+.neuron .select {
+    fill: transparent;
+    stroke:#78909C;
+    stroke-width: 3;
+    opacity: 0;
+    transition: 0.3s;
+}
+.neuron:hover .select {
+    opacity: 1;
+}
+.c0, .c1, .c2, .c3, .c4, .c5 {
+    fill: transparent;
+    transition: 0.15s;
+}
+.c0 {
+    stroke: #283593;
+    fill: #1b2328;
+    stroke-width: 40; 
+}
+.c1 {
+    stroke:#304FFE;
+    stroke-width:20;
+}
+.c2 { 
+    stroke:#536DFE;
+    stroke-width:6;
+}
+.c3 {
+    stroke:#00BFA5;
+    stroke-dasharray:1;
+    stroke-dashoffset: 1;
+    stroke-width:6;
+    transition:0.2s;
+}
+.c4 {
+    stroke: #1DE9B6;
+    stroke-width: 0; /* 12 on effect */
+}
+.c5 {
+    stroke: #ffffff;
+    stroke-width: 0; /* 5 on effect */
+}
+.ndiv {
+    position: absolute;
+    display: flex;
+    z-index: 2;
+    cursor: default;
+    transform: scale(50%);
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
+
+.connectionSVG {
+    position: relative;
+    top: inherit;
+    left: inherit;
+    height: 100%;
+    width: 100%;
+    fill: transparent;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    z-index: 1;
+}
+
+.lweight {
+    fill: transparent;
+    position: absolute;
+    stroke-width: 3;
+    stroke: #304FFE;
+}
+
+.lhighlight {
+    fill: transparent;
+    position: absolute;
+    stroke-width: 20;  
+    stroke-linecap: round;
+    stroke: transparent;
+    opacity: 0.15;
+    z-index: 3;
+    cursor: pointer;
+}
+
+.lhighlight:hover {
+    stroke: red;
+}
+
+.lthick {
+    fill: transparent;
+    position: absolute;
+    stroke-width: 15;  
+    stroke-linecap: round;
+    stroke: transparent;
+    opacity: 0.15;
+    z-index: 3;
+}
+
+.lspike {
+    fill: transparent;
+    position: absolute;
+    stroke-width: 3;
+    stroke: #00BFA5;
+    stroke-linecap: round;
+}
