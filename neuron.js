@@ -1,6 +1,6 @@
 const FULL_PROG_BAR = 1;
-const LEAK_RATE = 5 / (100 * 5); //leak amount per second
-const START_LEFT = 0;
+const LEAK_RATE = 20 / (100 * 5); //leak amount per second
+const START_LEFT = 80;
 
 class Neuron {
     constructor() { // initialize default variables
@@ -35,8 +35,7 @@ class Neuron {
     }
 
     calcOutput() {
-        this.output = (this.value);
-        console.log(this.output);
+        this.output = this.value;
         for (let i = 0; i < this.outputs.length; i++) {
             this.outputs[i].sendData(this.output);
         }
@@ -61,7 +60,7 @@ class Neuron {
 
     setClickMode() {
         this.neuronContainer.onclick = () => { 
-            this.addValue(0.2);
+            this.addValue(0.4);
         }
     }
 
@@ -71,7 +70,16 @@ class Neuron {
         }
     }
 
+    setDeleteMode() {
+        this.neuronContainer.style.cursor = "pointer";
+        this.neuronContainer.classList.add('highlightDelete');
+        this.neuronContainer.onclick = () => {
+            this.deleteNeuron();
+        }
+    }
+
     setIdleMode() {
+        this.neuronContainer.classList.remove('highlightDelete');
         this.neuronContainer.onmousedown = null;
         this.neuronContainer.onclick = null;
         this.neuronContainer.style.cursor = "default";
@@ -133,10 +141,12 @@ class Neuron {
         let boardRect = board.getBoundingClientRect();
         let rowSize = min(8 , parseInt(boardRect.width / rect.width) - 1);
         let offset = (step % rowSize) * 100;
-        this.neuronContainer.style.left = offset + START_LEFT + "px";
+        let left = offset + START_LEFT;
+        this.neuronContainer.style.left = left + "px";
         if (step >= rowSize) {
-            let START_TOP = board.getBoundingClientRect().top;
-            this.neuronContainer.style.top = 100 * parseInt(step / rowSize) + START_TOP + "px";
+            let START_TOP = boardRect.top;
+            let top = 100 * parseInt(step / rowSize) + START_TOP;
+            this.neuronContainer.style.top = top + "px";
         }
     }
 
@@ -152,7 +162,7 @@ class Neuron {
             pos3 = e.clientX;
             pos4 = e.clientY;
             elmnt.style.cursor = "grabbing";
-            document.onmouseup = closeDragElement;
+            document.onmouseup = stopDragElement;
             // call a function whenever the cursor moves:
             document.onmousemove = elementDrag;
         }
@@ -162,13 +172,15 @@ class Neuron {
             // calculate the new cursor position:
             pos1 = pos3 - e.clientX;
             pos2 = pos4 - e.clientY;
-            inBounds(pos1, pos2);
             pos3 = e.clientX;
             pos4 = e.clientY;
-        
+            if (!_this.inBounds(elmnt.offsetLeft - pos1, elmnt.offsetTop - pos2)){
+                return;
+            }
             // set the element's new position:
             elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
             elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            
             for (let i = 0; i < _this.inputs.length; i++) {
                 _this.inputs[i].reshape();
             }
@@ -177,20 +189,50 @@ class Neuron {
             }
         }
     
-        function closeDragElement() {
+        function stopDragElement() {
             // stop moving when mouse button is released:
             document.onmouseup = null; 
             document.onmousemove = null;
             elmnt.style.cursor = "grab";
         }
-    
-        function inBounds(x, y) {
-            if (x && y) {
-                x++;
-                y++;
+    }
+
+    inBounds(x, y, e) {
+        e = e || window.event;
+        let rect = board.getBoundingClientRect();
+        let n = this.neuronContainer.getBoundingClientRect();
+        
+        let tooFarUp = rect.top > (y + n.height / 2);
+        let tooFarLeft = rect.left > (x);
+        let tooFarDown = rect.top + rect.height < (y + n.height * 1.5);
+        let tooFarRight = rect.left + rect.width < (x + n.width * 1.5);
+        
+        let mouseTooHigh = e.clientY < rect.top;
+        let mouseTooLeft = e.clientX < rect.left + n.width;
+        let mouseTooLow = e.clientY > rect.top + rect.height;
+        let mouseTooRight = e.clientX > rect.left + rect.width;
+        
+        if (tooFarUp || tooFarDown || tooFarLeft || tooFarRight) {
+            if (mouseTooHigh || mouseTooLow || mouseTooLeft || mouseTooRight) {
+                document.onmouseup = null; //stopDragElement
+                document.onmousemove = null;
+                this.neuronContainer.style.cursor = "grab";
             }
-            return;
+            return false;
         }
+        return true;
+    }
+
+    deleteNeuron() {
+        this.neuronContainer.remove();
+        while (this.outputs.length) {
+            this.outputs[0].deleteConnection();
+        }
+        while (this.inputs.length) {
+            this.inputs[0].deleteConnection();
+        }
+        let i = neurons.indexOf(this);
+        neurons.splice(i, 1);
     }
 
     buildNeuron() { // procedural neuron svg construction

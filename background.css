@@ -82,7 +82,7 @@ body {
     border: 3px solid #131618;
     border-radius: 25px;
     height: 72vh;
-    width: inherit;
+    width: 100%;
 }
 
 #demoBox {
@@ -96,4 +96,12 @@ body {
     left: 300px;
     z-index: 3;
     transition: 0.5s;
+}
+
+#ioDiv {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    top: inherit;
+    left: inherit;
 }

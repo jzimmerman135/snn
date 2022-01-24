@@ -4,8 +4,8 @@ class Connection {
     constructor(neuron) { //pass from neuron in constructor
         this.from = neuron;
         this.to = null;
-        this.value = 100;
-        this.weight = 0.5;
+        this.value = null;
+        this.weight = 0.25;
         this.isGood = false;
         this.delay = 0.75;
         this.buildNewConnection();
@@ -49,6 +49,10 @@ class Connection {
                     }
                 }
             }
+        }
+
+        for (let i = 0; i < inputNeurons.length; i++) {
+            inputNeurons[i].inputSvg.onclick = null;
         }
 
         document.onclick = (e) => { // delete on click elsewhere
@@ -122,10 +126,13 @@ class Connection {
         }
     }
 
-    async sendData(val) {
+    async sendData(val, className=false) {
         let spikeLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         this.setAttributesToZero(spikeLine);
         spikeLine.classList.add('lspike');
+        if (className) {
+            spikeLine.classList.replace('lspike',className);
+        }
         spikeLine.setAttribute('pathLength','1');
         connectionSvg.appendChild(spikeLine);
 
@@ -142,10 +149,12 @@ class Connection {
         let _this = this;
         let framerate = 60;
         let transition = this.delay * 1000;
+        
         let startX = this.line.x1.baseVal.value;
         let startY = this.line.y1.baseVal.value;
         let finalX = this.line.x2.baseVal.value;
         let finalY = this.line.y2.baseVal.value;
+
         let x1, y1, x2, y2, t1, t2;
         let t = 0;
         let w = this.value * 120 / Math.sqrt(Math.pow(finalX - startX, 2) + Math.pow(finalY - startY, 2)); //width as a percentage of the total length of line
@@ -200,7 +209,7 @@ class Connection {
     setClickMode() {
         this.thickLine.classList.add('lthick');
         this.thickLine.onclick = () => {
-            this.sendData(this.weight);
+            this.sendData(1);
         }
     }
 

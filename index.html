@@ -34,6 +34,10 @@
                 <div><span class="material-icons-outlined">content_cut</span></div>
             </label>
             <label>
+                <input class="button" type="checkbox" name="deleteMode">
+                <div><span class="material-icons-outlined">delete_forever</span></div>
+            </label>
+            <label>
                 <input class="button" type="button" name="add">
                 <div><span class="material-icons-outlined">add</span></div>
             </label>
@@ -44,23 +48,22 @@
                 <input class="button" type="checkbox" name="play">
                 <div><span class="material-icons">play_arrow</span></div>
             </label>
-            <label>
-                <input class="button" type="checkbox" name="pause">
-                <div><span class="material-icons-outlined">pause</span></div>
-            </label>
         </form> 
         
         <div id="board">
-            <div id="demoBox"></div>
+            <div id="ioDiv">
+            </div>
         </div>
         
 </body>
 <script src="neuron.js"></script>
 <script src="connection.js"></script>
+<script src="io.js"></script>
 <script src="menu.js"></script>
 <script>
     var neurons = [];
     var connections = [];
+    var inputNeurons = [];
     setDefault();
     
     

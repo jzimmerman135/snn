@@ -15,6 +15,7 @@
 .neuron:hover .select {
     opacity: 1;
 }
+
 .c0, .c1, .c2, .c3, .c4, .c5 {
     fill: transparent;
     transition: 0.15s;
@@ -60,6 +61,11 @@
     user-select:none;
 }
 
+.highlightDelete.ndiv:hover {
+    background: rgba(255,0,0,0.1);
+    border-radius: 15%;
+}
+
 .connectionSVG {
     position: relative;
     top: inherit;
@@ -94,7 +100,7 @@
 }
 
 .lhighlight:hover {
-    stroke: red;
+    stroke: rgb(255, 0, 0);
 }
 
 .lthick {
@@ -113,4 +119,61 @@
     stroke-width: 3;
     stroke: #00BFA5;
     stroke-linecap: round;
+}
+
+.inputNeuron {
+    position: absolute;
+    height: 50px;
+    width: 85px;
+    top: 150px;
+    left: 0px;
+    z-index: 2;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
+
+.inputCircle {
+    fill: #0f1641;
+}
+
+.inputNeuron:hover .inputBackgroundCircle{
+    stroke-width: 5;
+} 
+
+.inputNeuron:hover .inputBackgroundLine {
+    stroke-width: 12;
+}
+
+.spikeCircle {
+    fill: #1a2894;
+}
+
+.inputLine {
+    position: absolute;
+    stroke: #0e164b;
+    stroke-width: 7;
+}
+
+.inputSpikeLine {
+    position: absolute;
+    stroke: #1a2894;
+    stroke-width: 0;
+}
+
+.inputBackgroundLine {
+    stroke: #263bd7;
+    stroke-width: 10;
+}
+
+.inputBackgroundCircle {
+    stroke: #263bd7;
+    stroke-width: 3;
+}
+
+@keyframes flashCircle {
+    from { r: 18; }
+    to { r: 0; }
 }

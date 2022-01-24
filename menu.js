@@ -2,10 +2,10 @@ buttons.dragMode.addEventListener('click', dragMode);
 buttons.clickMode.addEventListener('click', clickMode);
 buttons.connectMode.addEventListener('click', connectMode);
 buttons.cutMode.addEventListener('click', cutMode);
+buttons.deleteMode.addEventListener('click', deleteMode);
 buttons.add.addEventListener('click', addNeuron);
 
 buttons.play.addEventListener('click', play);
-buttons.pause.addEventListener('click', pause);
 
 var board = document.getElementById('board');
 
@@ -13,8 +13,16 @@ var connectionSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'
 connectionSvg.classList.add('connectionSVG');
 board.appendChild(connectionSvg);
 
+const NUM_INPUTS_START = 4;
+const NUM_NEURONS_START = 3;
+
 function setDefault() {
-    // addNeuron();
+    for (let i = 0; i < NUM_NEURONS_START; i++) {
+        addNeuron();
+    }
+    for (let i = 0; i < NUM_INPUTS_START; i++) {
+        new InputNeuron();
+    }
     return;
 }
 
@@ -34,12 +42,18 @@ function clickMode() {
     for (let i = 0; i < connections.length; i++) {
         connections[i].setClickMode();
     }
+    for (let i = 0; i < inputNeurons.length; i++) {
+        inputNeurons[i].setClickMode();
+    }
 }
 
 function connectMode() {
     uncheckAllBut("connectMode");
     for (let i = 0; i < neurons.length; i++) {
         neurons[i].setConnectMode();
+    }
+    for (let i = 0; i < inputNeurons.length; i++) {
+        inputNeurons[i].setConnectMode();
     }
     return;
 }
@@ -50,6 +64,13 @@ function cutMode() {
         connections[i].setCutMode();
     }
     return;
+}
+
+function deleteMode() {
+    uncheckAllBut("deleteMode");
+    for (let i = 0; i < neurons.length; i++) {
+        neurons[i].setDeleteMode();
+    }
 }
 
 function idleConnections() {
@@ -64,6 +85,12 @@ function idleNeurons() {
     }
 }
 
+function idleInputs() {
+    for (let i = 0; i < inputNeurons.length; i++) {
+        inputNeurons[i].setIdleMode();
+    }
+}
+
 function addNeuron() {
     let newNeuron = new Neuron();
     let i = 0;
@@ -73,6 +100,44 @@ function addNeuron() {
     }
     neurons.push(newNeuron);
     dragMode();
+}
+
+
+function uncheckAllBut(name) {
+    buttons.dragMode.checked = false;
+    buttons.clickMode.checked = false;
+    buttons.connectMode.checked = false;
+    buttons.cutMode.checked = false;
+    buttons.deleteMode.checked = false;
+    buttons[name].checked = true;
+    idleConnections();
+    idleNeurons();
+    idleInputs();
+}
+
+function play() {
+    for (let i = 0; i < inputNeurons.length; i++) {
+        inputNeurons[i].oscillate(500 * (i + 1));
+    }
+    buttons.play.removeEventListener('click', play);
+    buttons.play.addEventListener('click', pause);
+}
+
+function pause() {
+    console.log("made it")
+    for (let i = 0; i < inputNeurons.length; i++) {
+        inputNeurons[i].stopOscillating();
+    }
+    buttons.play.removeEventListener('click', pause);
+    buttons.play.addEventListener('click', play);
+}
+
+function max(a, b) {
+    return a * (a >= b) + b * (a < b);
+}
+
+function min(a, b) {
+    return a * (a <= b) + b * (a > b);
 }
 
 function positionOccupied(neuron) {
@@ -85,30 +150,8 @@ function positionOccupied(neuron) {
     return false;
 }
 
-function uncheckAllBut(name) {
-    buttons.dragMode.checked = false;
-    buttons.clickMode.checked = false;
-    buttons.connectMode.checked = false;
-    buttons.cutMode.checked = false;
-    buttons[name].checked = true;
-    idleConnections();
-    idleNeurons();
-}
-
-function play() {
-    document.getElementById('demoBox').style.top = neurons[1].getInputPointTop() + "px";
-    document.getElementById('demoBox').style.left = neurons[1].getInputPointLeft() + "px";
-}
-
-function pause() {
-    document.getElementById('demoBox').style.top = neurons[1].getOutputPointTop() + "px";
-    document.getElementById('demoBox').style.left = neurons[1].getOutputPointLeft() + "px";
-}
-
-function max(a, b) {
-    return a * (a >= b) + b * (a < b);
-}
-
-function min(a, b) {
-    return a * (a <= b) + b * (a > b);
+function placeInputNeurons() {
+    for (let i = 0; i < inputNeurons.length; i++) {
+        inputNeurons[i].reposition(i);
+    }
 }
