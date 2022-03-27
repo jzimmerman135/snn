@@ -16,7 +16,7 @@ body {
 
 @font-face {
     font-family: Disco;
-    src: url("mexcellent\ rg.otf");
+    src: url("../misc/mexcellent_rg.otf");
 }
 .title {
     font-size: 60px;
