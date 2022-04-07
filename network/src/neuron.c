@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "matrix.h"
+#include "models.h"
 
 #define T Neuron_T
 
@@ -10,7 +11,6 @@ struct T {
     float      threshold;
     int         n_inputs;
 };
-
 
 T Neuron_new(int n_inputs)
 {

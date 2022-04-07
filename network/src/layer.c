@@ -4,6 +4,7 @@
 
 #define T Layer_T
 
+/* Member variables */
 struct Layer_T {
     Neuron_T *neurons;
     Matrix_T inhibition;
@@ -11,6 +12,7 @@ struct Layer_T {
     int current_t;
 };
 
+/* Constructor */
 T Layer_new(int n_neurons, T n_inputs)
 {
     T layer = malloc(sizeof(struct T));
@@ -27,6 +29,7 @@ T Layer_new(int n_neurons, T n_inputs)
     return layer;
 }
 
+/* Show the layer a vector */
 Matrix_T Layer_feed(T layer, Matrix_T data)
 {
     int t_init = layer->current_t;
@@ -41,6 +44,7 @@ Matrix_T Layer_feed(T layer, Matrix_T data)
     }
 }
 
+/* Assess the results of the vector */
 void Layer_train(T layer, Matrix_T input, Matrix_T output)
 {
     for (int i = 0; i < layer->n_neurons; i++) {
@@ -48,6 +52,7 @@ void Layer_train(T layer, Matrix_T input, Matrix_T output)
     }
 }
 
+/* Destructor */
 void Layer_free(T *layer)
 {
     int n_neurons = (*layer)->n_neurons;

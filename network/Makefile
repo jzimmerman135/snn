@@ -12,24 +12,31 @@
 
 ################ Variables ###################
 
+MAKE_DIR = $(PWD)
+
 CC = gcc
 
-IFLAGS = -I./include
+INCLUDE_DIR := $(MAKE_DIR)/include
+SRC_DIR := $(MAKE_DIR)/src
 
-CFLAGS = -g -std=gnu99 -O3 -Wall -Wextra -Werror -Wfatal-errors -pedantic $(IFLAGS)
+IFLAGS = -I$(INCLUDE_DIR) -I$(SRC_DIR)
 
-LDFLAGS = -g -L./src
+CFLAGS := -g -std=c99 -O3 -Wall -Wextra -Werror -Wfatal-errors -pedantic
+CFLAGS += $(IFLAGS)
 
-LDLIBS = 
+LDFLAGS :=
+LDLIBS = -lpthread
 
 INCLUDES = $(shell echo *.h)
 
+OBJECTS = network.o layer.o neuron.o models.o
+
 ################# Build rules #################
 
-%.o: %.c $(INCLUDES)
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: src/%.c $(INCLUDES)
+	$(CC) $(CFLAGS) -c $< -o $@ $(LDLIBS)
 
-snn: network.o layer.o neuron.o models.o
+snn: $(OBJECTS)
 	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
 clean:
