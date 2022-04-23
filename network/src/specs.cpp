@@ -91,10 +91,16 @@ SpecSheet::SpecSheet()
         verify_reading(parameter, line, ss >> stdp_thresholds[i]);
 
     getline(file, parameter);
-    verify_line(parameter, "ALPHA LEARN RATE:");
+    verify_line(parameter, "POTENTIATION LEARN RATE:");
     getline(file, line);
     ss.clear(), ss.str(line);
-    verify_reading(parameter, line, ss >> learn_alpha);
+    verify_reading(parameter, line, ss >> learn_potentiation);
+
+    getline(file, parameter);
+    verify_line(parameter, "DEPRESSION LEARN RATE:");
+    getline(file, line);
+    ss.clear(), ss.str(line);
+    verify_reading(parameter, line, ss >> learn_depression);
 
     getline(file, parameter);
     verify_line(parameter, "BETA LEARN RATE:");

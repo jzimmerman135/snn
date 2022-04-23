@@ -16,8 +16,9 @@ public:
     float *v_thresholds;
     float *stdp_thresholds;
 
+    float learn_potentiation;
+    float learn_depression;
     float learn_beta;
-    float learn_alpha;
 
     int cycles_per_input;
     int cycles_through_data;

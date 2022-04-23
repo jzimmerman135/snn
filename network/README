@@ -136,14 +136,15 @@
 
     Input .data files should be in the following format:
 
-============================= example.data ====================================
+
+============== example.data =================
 
 # INPUTS, # INPUT CHANNELS, # OUTPUT CHANNELS:
 60000 128 10
 |----128 floats as bytes------|------128 floats as bytes---|------128 floats---
 ----|....|---10 floats as bytes --|----10 floats as bytes-----|...|EOF|
 
-===============================================================================
+==============================================
 
 No newline characters between inputs or between labels and inputs, just a
 continuous series of bytes.
@@ -154,7 +155,7 @@ continuous series of bytes.
 
     Output .out files should be in the following format:
 
-============================= example.out =====================================
+================ example.out =================
 
 
-===============================================================================
+==============================================
