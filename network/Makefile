@@ -1,43 +1,50 @@
-# Makefile for Spike Timing Learning Dependent Learning
-# Simulated Analogue Spiking Neural Network
-#
-# a.k.a. STDPSASNN or ZimNET
-#
-# This included information to build the network and to create
-# data to run the network with
-#
-#
-# Created: April 6, 2022 by Jacob Zimmerman
+CXX      := g++
+CXXFLAGS := -pedantic-errors -Wall -Wextra -Werror
+LDFLAGS  := -lm
+BUILD    := ./build
+OBJ_DIR  := $(BUILD)/objects
+APP_DIR  := $(BUILD)/apps
+TARGET   := program
+INCLUDE  := -Iinclude/
+SRC      := $(wildcard src/*.cpp)
 
+OBJECTS  := $(SRC:%.cpp=$(OBJ_DIR)/%.o)
+DEPENDENCIES := $(OBJECTS:.o=.d)
 
-################ Variables ###################
+all: build $(APP_DIR)/$(TARGET)
 
-MAKE_DIR = $(PWD)
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@
 
-CC = gcc
+$(APP_DIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) -o $(APP_DIR)/$(TARGET) $^ $(LDFLAGS)
 
-INCLUDE_DIR := $(MAKE_DIR)/include
-SRC_DIR := $(MAKE_DIR)/src
+-include $(DEPENDENCIES)
 
-IFLAGS = -I$(INCLUDE_DIR) -I$(SRC_DIR)
+.PHONY: all build clean debug release info
 
-CFLAGS := -g -std=c99 -O3 -Wall -Wextra -Werror -Wfatal-errors -pedantic
-CFLAGS += $(IFLAGS)
+build:
+	@mkdir -p $(APP_DIR)
+	@mkdir -p $(OBJ_DIR)
 
-LDFLAGS :=
-LDLIBS = -lpthread
+debug: CXXFLAGS += -DDEBUG -g
+debug: all
 
-INCLUDES = $(shell echo *.h)
+release: CXXFLAGS += -O2
+release: all
 
-OBJECTS = network.o layer.o neuron.o models.o
-
-################# Build rules #################
-
-%.o: src/%.c $(INCLUDES)
-	$(CC) $(CFLAGS) -c $< -o $@ $(LDLIBS)
-
-snn: $(OBJECTS)
-	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
+leak:
+	leaks -atExit -- $(APP_DIR)/$(TARGET)
 
 clean:
-	rm -f *.o
+	-@rm -rvf $(OBJ_DIR)/*
+	-@rm -rvf $(APP_DIR)/*
+
+info:
+	@echo "[*] Application dir: ${APP_DIR}     "
+	@echo "[*] Object dir:      ${OBJ_DIR}     "
+	@echo "[*] Sources:         ${SRC}         "
+	@echo "[*] Objects:         ${OBJECTS}     "
+	@echo "[*] Dependencies:    ${DEPENDENCIES}"

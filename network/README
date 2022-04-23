@@ -1,0 +1,160 @@
+*******************************************************************************
+
+                                    USAGE
+
+-------------------------------------------------------------------------------
+
+    Make:
+    -----
+        make all
+
+    Run:
+    ----
+
+        UNTIL PROGRAM IS READY USE:
+        ./test
+        to run main.cpp from home directory
+
+        Must be in home directory
+
+        ** not ready yet **
+        if saving data
+        ./build/apps/program <train>.data <test>.data <output>.out
+
+        otherwise
+        ./build/apps/program <train_file>.data <test_file>.data
+
+    Test:
+    -----
+        ./test
+
+    Config:
+    -------
+        See recommended configs for each dataset below
+
+
+*******************************************************************************
+
+                                TIMELINE
+
+-------------------------------------------------------------------------------
+
+    Friday, April 22
+        organize the code
+        * COMPLETED *
+        get the layer module implemented and compiling
+        * Missing training step *
+
+    Saturday, April 23
+        get the specification module to compile and read the config
+        * COMPLETED *
+        test the layer module
+
+    Sunday, April 24
+        First input dataset read in correctly
+
+*******************************************************************************
+
+                                ORGANIZATION
+
+-------------------------------------------------------------------------------
+
+    [ snn ]
+       |
+       |-------- [ scripts ]
+       |            |------ shell scripts to run default data
+       |
+       |-------- [ src ]
+       |            |------ all .cpp files
+       |            |------ snn.cpp (main function)
+       |
+       |-------- [ build ]
+       |            |
+       |            |------ [ apps ]
+       |            |           |------ snn (executable)
+       |            |           |------ config.snn
+       |            |
+       |            |------ [ objects ]
+       |                        |------ all .o files
+       |
+       |-------- [ include ]
+       |            |------- all .h files
+       |
+       |
+       |-------- [ datasets ]
+       |            |------- all .data files that contain input data bytes
+       |            |------- all python tools for pre-processing data
+       |
+       |-------- [ analysis ]
+                    |------- [ output ]
+                    |            |------- all program output analysis files
+                    |
+                    |------- python tools for data analysis
+
+
+*******************************************************************************
+
+                                C++ MODULES
+
+-------------------------------------------------------------------------------
+
+    Specs Module:
+    -------------
+        SpecSheet object that reads from config.snn in /build/apps/ directory
+        Contains all initialization data for the snn
+
+    Layer Module:
+    -------------
+        Operates on an array of neurons at a time. Room for parallelization.
+
+    Network Module:
+    ---------------
+        Initializes each layer
+        Controls flow of input data into network
+
+    Measure Module:
+    ---------------
+        Given a network object, stores extensive amounts of data about the
+        runtime state of the network.
+
+        The output of this will be fed into the /analysis/output/ directory
+
+    Pulse Module:
+    -------------
+        Turns fixed value input data into a spike train
+
+    Reader Module:
+    --------------
+        Parse the input data and reads the binary file
+
+
+*******************************************************************************
+
+                                DATA FORMATTING
+
+-------------------------------------------------------------------------------
+
+    Input .data files should be in the following format:
+
+============================= example.data ====================================
+
+# INPUTS, # INPUT CHANNELS, # OUTPUT CHANNELS:
+60000 128 10
+|----128 floats as bytes------|------128 floats as bytes---|------128 floats---
+----|....|---10 floats as bytes --|----10 floats as bytes-----|...|EOF|
+
+===============================================================================
+
+No newline characters between inputs or between labels and inputs, just a
+continuous series of bytes.
+
+
+    -       -       -       -       -       -       -       -       -       -
+
+
+    Output .out files should be in the following format:
+
+============================= example.out =====================================
+
+
+===============================================================================
