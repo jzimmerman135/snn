@@ -8,20 +8,21 @@ using namespace std;
 
 SpecSheet::SpecSheet()
 {
-    /* parse the rest of the configuration */
+    /* these values must be set by clients of SpecSheet */
     save_data = false;
     output_filename = "";
     train_data_filename = "";
     test_data_filename = "";
     n_input_channels = 0;
+    n_output_channels = 0;
 
-    /* parse the rest of the configuration */
     string line, parameter;
     ifstream file;
     stringstream ss;
     file.open("config.snn");
     if (!file.good()) {
-        cerr << "Error: config.snn could not be opened.\n";
+        cerr << "\033[1mError\033[0m: ";
+        cerr << "failed to open config.snn\n";
         exit(1);
     }
 
@@ -34,12 +35,14 @@ SpecSheet::SpecSheet()
     ss.clear(), ss.str(line);
     verify_reading(parameter, line, ss >> n_layers);
 
+    /* allocate arrays */
     architecture = new int[n_layers];
     initial_weights = new float[n_layers];
     initial_weights_variance = new float[n_layers];
     v_thresholds = new float[n_layers];
     stdp_thresholds = new float[n_layers];
 
+    /* parse the rest of the configuration */
     getline(file, parameter);
     verify_line(parameter, "CYCLES PER INPUT:");
     getline(file, line);
