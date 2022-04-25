@@ -156,7 +156,6 @@ void Layer::train()
             w[i] += -depression;
 
     times_post_syn[winner] = 0;
-    
     return;
 }
 
