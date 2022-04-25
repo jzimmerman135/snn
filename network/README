@@ -139,8 +139,7 @@
 
 ============== example.data =================
 
-# INPUTS, # INPUT CHANNELS, # OUTPUT CHANNELS:
-60000 128 10
+60000 INPUTS, 128 INPUT CHANNELS, 10 OUTPUT CHANNELS
 |----128 floats as bytes------|------128 floats as bytes---|------128 floats---
 ----|....|---10 floats as bytes --|----10 floats as bytes-----|...|EOF|
 

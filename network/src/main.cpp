@@ -26,5 +26,7 @@ int main() {
 
     file << "Hello folder\n";
 
+    SpecSheet specs;
+
     return 0;
 }
