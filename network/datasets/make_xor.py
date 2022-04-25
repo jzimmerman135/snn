@@ -16,8 +16,7 @@ input_arr = np.array([0.01,0.03,0.028,
 output_arr = np.array([0.01,0.99,0.989,0.012,0.982,0.009,0.011,0.998], dtype="float32")
 
 # set up file
-with open("../datasets/xor.data", "wb") as file:
+with open("xor.data", "wb") as file:
     file.write("8 INPUTS, 3 INPUT CHANNELS, 2 OUTPUT CHANNELS".encode('ascii'))
     file.write(input_arr.tobytes())
     file.write(output_arr.tobytes())
-    

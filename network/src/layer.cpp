@@ -90,7 +90,8 @@ int *Layer::feed(int *synapses)
     /* spike[i] = 1 iff voltages[i] > v_thresholds[i] */
     set_spikes();
     set_inhibitions();
-    train();
+    if (winner != -1)
+        train();
 
     return spikes;
 }
@@ -125,17 +126,16 @@ void Layer::set_spikes()
         if (voltages[i] > v_thresholds[i]) {
             voltages[i] = 0;
             spikes[i] = 1;
-        } else {
+        } else
             spikes[i] = 0;
-        }
 }
 
 void Layer::set_inhibitions()
 {
     for (int i = 0; i < n_neurons; i++)
-        if (voltages_stdp[i] > stdp_thresholds[i]) {
+        if (voltages_stdp[i] > stdp_thresholds[i])
             winner = i;
-        } else
+        else
             times_post_syn[i]++;
 
     if (winner == -1) /* no neurons fired */
