@@ -152,10 +152,22 @@ continuous series of bytes.
 
     -       -       -       -       -       -       -       -       -       -
 
+j=neuron index (int)
+l=layer index (int)
+inp=input (float)
+outp=output (float)
+V=voltage (float)
+Vstdp=learning voltage (float)
+t=time of spike (float)
+Wj=weight (array of floats)
+nprev=number of nodes in previous layer (int)
+Linh=learning inhibition rate (float)
 
     Output .out files should be in the following format:
 
 ================ example.out =================
 
+j,l,inp,outp,V,Vstdp,t,Wj,nprev,Linh\n
+-,-,-,-,-,-,-,-,-,-\n
 
 ==============================================
