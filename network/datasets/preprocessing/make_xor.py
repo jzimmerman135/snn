@@ -1,8 +1,5 @@
 import numpy as np
-import os
 from writeinput import *
-
-os.path.join
 
 # inputs
 input_arr = np.array([0.01,0.03,0.028,
@@ -31,10 +28,5 @@ train.n_output_channels = 2
 train.input_data = input_arr
 train.label_data = output_arr
 
+# filename can be 'xor' or 'xor.data' –– both will work
 train.write("xor")
-
-# set up file
-# with open("../xor.data", "wb") as file:
-#     file.write("8 INPUTS, 3 INPUT CHANNELS, 2 OUTPUT CHANNELS".encode('ascii'))
-#     file.write(input_arr.tobytes())
-#     file.write(output_arr.tobytes())
