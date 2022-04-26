@@ -10,19 +10,11 @@
 
     Run:
     ----
-
-        UNTIL PROGRAM IS READY USE:
-        ./test
-        to run main.cpp from home directory
-
-        Must be in home directory
-
-        ** not ready yet **
-        if saving data
-        ./build/apps/program <train>.data <test>.data <output>.out
-
-        otherwise
-        ./build/apps/program <train_file>.data <test_file>.data
+        to make data
+        ** FROM WITHIN NETWORK DIRECTORY **
+        ./make_data
+        or to make a specific file use
+        ./make_data make_xor.py
 
     Test:
     -----
