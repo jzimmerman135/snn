@@ -48,11 +48,7 @@ void Reader::read_input_data(std::string filename)
     size_t read;
     read = fscanf(fp, "%i INPUTS, %i INPUT CHANNELS, %i OUTPUT CHANNELS:\n",
                         &n_inputs, &n_input_channels, &n_output_channels);
-    if (read != 3) {
-        fprintf(stderr, "\033[1mError\033[0m: ");
-        fprintf(stderr, "failed to read data file header\n");
-        exit(1);
-    }
+    verify(read == 3, "failed to read data file header");
 
     inputs = new float*[n_inputs];
     labels = new float*[n_inputs];

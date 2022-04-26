@@ -3,16 +3,14 @@
 #include "specs.h"
 #include "layer.h"
 #include "reader.h"
+#include "helpful.h"
 #include <time.h>
 #include <stdio.h>
 
 using namespace std;
 
 int main(int argc, char **argv) {
-
-    if (argc == 1) {
-        cerr << "Error: add an input data file";
-    }
+    verify(argc == 2, "add an input data file");
 
     string datasets_path = "./datasets/";
     Reader train;

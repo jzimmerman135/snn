@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <assert.h>
 #include "specs.h"
+#include "helpful.h"
 
 using namespace std;
 
@@ -20,11 +20,7 @@ SpecSheet::SpecSheet()
     ifstream file;
     stringstream ss;
     file.open("config.snn");
-    if (!file.good()) {
-        cerr << "\033[1mError\033[0m: ";
-        cerr << "failed to open config.snn\n";
-        exit(1);
-    }
+    verify(file.good(), "failed to open config.snn");
 
     getline(file, parameter);
     verify_line(parameter, "SNN HYPER-PARAMETERS FILE");

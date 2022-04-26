@@ -1,6 +1,7 @@
 #include <iostream>
-#include <stdio.h>
 #include "helpful.h"
+
+using namespace std;
 
 void verify(bool success_case, std::string message)
 {
