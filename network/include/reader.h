@@ -16,7 +16,9 @@ public:
 
     int input_channels();
     int output_channels();
+    int n_elem();
 
+    void print_input(int i);
 private:
     int counter;
 
@@ -26,8 +28,6 @@ private:
     float **inputs;
     float **labels;
     int   n_inputs;
-
-    void verify_line(std::string a, std::string b);
 };
 
 #endif

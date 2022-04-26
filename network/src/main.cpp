@@ -2,31 +2,28 @@
 #include <fstream>
 #include "specs.h"
 #include "layer.h"
+#include "reader.h"
 #include <time.h>
 #include <stdio.h>
 
 using namespace std;
 
-int main() {
-    cout << "hello world" << endl;
-    srand(time(nullptr));
+int main(int argc, char **argv) {
 
-    for (size_t i = 0; i < 20; i++) {
-        float r = 0.05 * (float)(rand() % 100) / 100.f;
-        cout << r << endl;
+    if (argc == 1) {
+        cerr << "Error: add an input data file";
     }
-    string name = "demo";
-    string fullname = "./analysis/output/" + name + ".out";
 
-    ofstream file;
-    file.open(fullname);
+    string datasets_path = "./datasets/";
+    Reader train;
+    train.read_input_data(datasets_path + argv[1]);
 
-    if (!file.good())
-        cout << "failed to open file\n";
+    for (int i = 0; i < train.n_elem(); i++)
+        train.print_input(i);
 
-    file << "Hello folder\n";
-
-    SpecSheet specs;
+    cout << train.input_channels() << endl;
+    cout << train.output_channels() << endl;
+    cout << train.n_elem() << endl;
 
     return 0;
 }

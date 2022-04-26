@@ -1,1 +1,1 @@
-./build/apps/program
+./build/apps/program $1

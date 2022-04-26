@@ -1,9 +1,7 @@
-#include <iostream>
-#include <fstream>
 #include <stdio.h>
-#include <sstream>
+#include <iostream>
 #include "reader.h"
-
+#include "helpful.h"
 
 using namespace std;
 
@@ -41,13 +39,20 @@ void Reader::read_input_data(std::string filename)
 {
     FILE *fp = fopen(filename.c_str(), "r");
     if (!fp) {
-        cerr << "\033[1mError\033[0m: ";
-        cerr << "failed to open data file \'" << filename << "\'\n";
+        fprintf(stderr, "\033[1mError\033[0m: ");
+        fprintf(stderr, "failed to open data file \'%s\'\n", filename.c_str());
         exit(1);
     }
+    std::string message = "failed to open data file \'" + filename + "\'";
 
-    fscanf(fp, "%i INPUTS, %i INPUT CHANNELS, %i OUTPUT CHANNELS:",
-                &n_inputs, &n_input_channels, &n_output_channels);
+    size_t read;
+    read = fscanf(fp, "%i INPUTS, %i INPUT CHANNELS, %i OUTPUT CHANNELS:\n",
+                        &n_inputs, &n_input_channels, &n_output_channels);
+    if (read != 3) {
+        fprintf(stderr, "\033[1mError\033[0m: ");
+        fprintf(stderr, "failed to read data file header\n");
+        exit(1);
+    }
 
     inputs = new float*[n_inputs];
     labels = new float*[n_inputs];
@@ -57,7 +62,11 @@ void Reader::read_input_data(std::string filename)
         labels[i] = new float[n_output_channels];
     }
 
-    /* TODO: Read data */
+    for (int i = 0; i < n_inputs; i++)
+        fread(inputs[i], sizeof(float), n_input_channels, fp);
+
+    for (int i = 0; i < n_inputs; i++)
+        fread(labels[i], sizeof(float), n_output_channels, fp);
 
     return;
 }
@@ -73,6 +82,19 @@ float *Reader::current_label()
     return labels[counter];
 }
 
+void Reader::print_input(int i)
+{
+    printf("Input %i data is:\n", i);
+    for (int j = 0; j < n_input_channels; j++)
+        printf("%.3f ", inputs[i][j]);
+    printf("\n");
+
+    printf("Label %i data is:\n", i);
+    for (int j = 0; j < n_output_channels; j++)
+        printf("%.3f ", labels[i][j]);
+    printf("\n");
+}
+
 int Reader::output_channels()
 {
     return n_output_channels;
@@ -83,12 +105,7 @@ int Reader::input_channels()
     return n_input_channels;
 }
 
-void Reader::verify_line(std::string a, std::string b)
+int Reader::n_elem()
 {
-    if (a != b) {
-        cerr << "\033[1mError\033[0m: " << "parsing data failed\n";
-        cerr << "Expected: " << b << "\n";
-        cerr << "Read:     " << a << "\n";
-        exit(1);
-    }
+    return n_inputs;
 }
