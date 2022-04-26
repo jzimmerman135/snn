@@ -1,5 +1,6 @@
 import numpy as np
 import os
+from writeinput import *
 
 os.path.join
 
@@ -23,8 +24,17 @@ output_arr = np.array([0.01, 0.99,
                        0.011, 0.995,
                        0.998, 0.072], dtype="float32")
 
-# # set up file
-with open("../xor.data", "wb") as file:
-    file.write("8 INPUTS, 3 INPUT CHANNELS, 2 OUTPUT CHANNELS".encode('ascii'))
-    file.write(input_arr.tobytes())
-    file.write(output_arr.tobytes())
+train = Dataset()
+train.n_inputs = 8
+train.n_input_channels = 3
+train.n_output_channels = 2
+train.input_data = input_arr
+train.label_data = output_arr
+
+train.write("xor")
+
+# set up file
+# with open("../xor.data", "wb") as file:
+#     file.write("8 INPUTS, 3 INPUT CHANNELS, 2 OUTPUT CHANNELS".encode('ascii'))
+#     file.write(input_arr.tobytes())
+#     file.write(output_arr.tobytes())

@@ -1,0 +1,1 @@
+python3 ./datasets/preprocessing/make_xor.py
