@@ -6,6 +6,7 @@
 class SpecSheet {
 public:
     SpecSheet();
+    void read_config();
     ~SpecSheet();
 
     int n_layers;
@@ -34,6 +35,25 @@ public:
 private:
     void verify_line(std::string a, std::string b);
     void verify_reading(std::string a, std::string b, bool x);
+};
+
+struct ConnectedLayerSpec {
+    int   n_neurons;
+    float initial_weights;
+    float initial_weights_variance;
+    float v_threshold;
+    float stdp_threshold;
+};
+
+struct ConvLayerSpec {
+    int n_filter_neurons;
+    int n_filters;
+    int stride;
+    int pooling_size;
+    float initial_weights;
+    float initial_weights_variance;
+    float v_threshold;
+    float stdp_threshold;
 };
 
 #endif

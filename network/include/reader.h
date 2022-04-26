@@ -9,19 +9,20 @@ public:
     Reader();
     ~Reader();
 
+    /* setters */
+
     void read_input_data(std::string filename);
 
-    float *next_input();
-    float *current_label();
+    /* getters */
+
+    float *input(int i);
+    float *label(int i);
+    void print_input(int i);
 
     int input_channels();
     int output_channels();
     int n_elem();
-
-    void print_input(int i);
 private:
-    int counter;
-
     int n_input_channels;
     int n_output_channels;
 

@@ -10,7 +10,6 @@ Reader::Reader()
     inputs = nullptr;
     labels = nullptr;
 
-    counter = -1; /* first elem is 0 */
     n_inputs = 0;
     n_input_channels = 0;
     n_output_channels = 0;
@@ -67,15 +66,14 @@ void Reader::read_input_data(std::string filename)
     return;
 }
 
-float *Reader::next_input()
+float *Reader::input(int i)
 {
-    counter++;
-    return inputs[counter];
+    return inputs[i];
 }
 
-float *Reader::current_label()
+float *Reader::label(int i)
 {
-    return labels[counter];
+    return labels[i];
 }
 
 void Reader::print_input(int i)

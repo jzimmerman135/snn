@@ -2,7 +2,7 @@
 #define NETWORK_INCLUDED
 
 #include "specs.h"
-#include "pulse.h"
+#include "pulser.h"
 #include "reader.h"
 
 class Network {
@@ -12,8 +12,9 @@ public:
     void train();
     void test();
 private:
-    Reader inputs;
-    Pulse  pulser;
+    Reader train_data;
+    Reader test_data;
+    Pulser encoder;
 };
 
 #endif

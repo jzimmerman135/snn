@@ -1,12 +1,12 @@
-#include "layer.h"
-#include "network.h"
-#include "pulse.h"
-#include "reader.h"
-#include "specs.h"
-#include <iostream>
-
-using namespace std;
-
+// #include "layer.h"
+// #include "network.h"
+// #include "pulser.h"
+// #include "reader.h"
+// #include "specs.h"
+// #include <iostream>
+//
+// using namespace std;
+//
 // int main(int argc, char **argv) {
 //     if (argc < 3) {
 //         cerr << "Error: please provide training and testing .data files.\n";
