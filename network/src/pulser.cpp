@@ -1,24 +1,10 @@
 #include <iostream>
 #include "pulser.h"
+#include "specs.h"
 
 Pulser::Pulser()
 {
-    counter = 0;
-    n_inputs = 0;
-
-    current = nullptr;
-    output = nullptr;
-}
-
-Pulser::~Pulser()
-{
-    delete [] current;
-    delete [] output;
-}
-
-void Pulser::initialize(int n)
-{
-    n_inputs = n;
+    n_inputs = spec->data.input_channels;
     current = new float[n_inputs];
     output = new int[n_inputs];
 
@@ -26,6 +12,12 @@ void Pulser::initialize(int n)
         current[i] = 0;
         output[i] = 0;
     }
+}
+
+Pulser::~Pulser()
+{
+    delete [] current;
+    delete [] output;
 }
 
 void Pulser::set_current(float *inputs)

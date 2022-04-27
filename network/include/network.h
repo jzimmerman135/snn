@@ -4,6 +4,7 @@
 #include "specs.h"
 #include "pulser.h"
 #include "reader.h"
+#include "logger.h"
 
 class Network {
 public:
@@ -14,6 +15,7 @@ public:
 private:
     Reader train_data;
     Reader test_data;
+    Logger record;
     Pulser encoder;
 };
 

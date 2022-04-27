@@ -21,8 +21,7 @@ struct ConvolutionLayerSpec {
     int stride;
     int pooling_ratio;
     int inh_radius;
-    float initial_weights;
-    float initial_weights_variance;
+    InitWeightSpec weights;
     float v_threshold;
     float stdp_threshold;
 };

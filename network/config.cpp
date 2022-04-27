@@ -6,14 +6,19 @@ using namespace std;
 
                             BUILD THE NETWORK
 
-                    this symbol means user must define:  <====
+        this symbol means that the client can change parameter: <====
+
+        layers should be defined with a static LayerSpec object
 
 ******************************************************************************/
 
-#define N_CV 0 // <==== number of convolutional layers and
-#define N_FC 3 // <==== of fully connected layers
+/*-----------------------------------------------------------------------------
+            ***        Customize layer archictecture    ***
+-----------------------------------------------------------------------------*/
+#define N_CV 0 // <==== # of convolutional layers
+#define N_FC 4 // <==== # of fully connected layers
 
-/* specify each layer's statistics */
+/* specify each layer's statistics, do this for however many layers */
 static ConnectedLayerSpec l1 = { // <====
     .n_neurons = 20,
     .weights =  {
@@ -44,16 +49,28 @@ static ConnectedLayerSpec l3 = { // <====
     .stdp_threshold = 12
 };
 
-/* fill the arrays with correct info */
-/* if no cv_layers set to nullptr */
+
+// ignore this line
+#if N_CV != 0
+
+
+/*-----------------------------------------------------------------------------
+        ***      Fill these arrays with the layers above     ***
+-----------------------------------------------------------------------------*/
+static ConvolutionLayerSpec cv_layers[N_CV] = {}; // <====
+#endif // ignore
+static ConnectedLayerSpec   fc_layers[N_FC] = {l1, l2, l2, l3}; // <====
+
+
+// don't worry about me
 #if N_CV == 0
-    static ConvolutionLayerSpec *cv_layers = nullptr;
-#elif N_CV != 0
-    static ConvolutionLayerSpec cv_layers[N_CV] = {}; // <====
+static ConvolutionLayerSpec *cv_layers = nullptr;
 #endif
 
-static ConnectedLayerSpec   fc_layers[N_FC] = {l1, l2, l3}; // <====
 
+/*-----------------------------------------------------------------------------
+            ***      Customize runtime and learning rates      ***
+-----------------------------------------------------------------------------*/
 static SpecSheet config = {
     /* customize this stuff below */
     .learn = {
@@ -67,7 +84,28 @@ static SpecSheet config = {
         .through_data = 2400 // <====
     },
 
-    /* don't worry about this stuff below here */
+/*-----------------------------------------------------------------------------
+                    STOP READING, the rest must stay constant
+-----------------------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+    /* okay fine, here it is */
+
+
+
+
+
+
+
     .arch = {
         .n_cv = N_CV,   // defined above
         .n_fc = N_FC,
@@ -77,14 +115,14 @@ static SpecSheet config = {
     },
 
     .data = {
-        .input_channels = 0, // automatically set
+        .input_channels = 0, // automatically set by reader and main
         .label_channels = 0,
         .train_filename = "",
         .test_filename = ""
     },
 
     .recording = {
-        .save = false, // automatically set
+        .save = false, // automatically set by main
         .filename = ""
     }
 };

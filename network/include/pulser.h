@@ -7,7 +7,6 @@ public:
     ~Pulser();
 
     /* setters */
-    void initialize(int n_inputs);
     void set_current(float *inputs);
 
     /* getters */

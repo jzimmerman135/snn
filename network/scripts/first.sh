@@ -3,9 +3,6 @@ DATA=../datasets
 CONFIG=./configs
 ANALYSIS=../analysis
 
-# while [ -e "$fname" ]; do
-#     printf -v fname '%s-%02d.txt' "$today" "$(( ++number ))"
-
 TRAIN=$DATA/first_train.data
 TEST=$DATA/first_test.data
 OUTPUT_FILENAME=first_output.out
