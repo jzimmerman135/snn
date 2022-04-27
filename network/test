@@ -1,1 +1,2 @@
-./build/apps/program $1
+#!/bin/bash
+./build/apps/program $@

@@ -5,7 +5,7 @@
 
 class Layer {
 public:
-    Layer(SpecSheet &s, int i);
+    Layer(int i);
     ~Layer();
     int *feed(int *synapses);
     int size();
@@ -21,8 +21,8 @@ private:
     int *spikes;
     int winner; /* index of non-inhibited neuron */
 
-    float *v_thresholds;
-    float *stdp_thresholds;
+    float v_threshold;
+    float stdp_threshold;
     float *voltages_stdp;
     float *voltages;
 
@@ -30,7 +30,6 @@ private:
     float depression;
     float beta;
 
-    void initialize(SpecSheet &spec, int i);
     void reset_inhibition();
 
     float dot(float *weights, int *synapses);

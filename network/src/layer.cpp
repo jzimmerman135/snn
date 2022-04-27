@@ -3,33 +3,37 @@
 #include "layer.h"
 #include "math.h"
 #include "specs.h"
+#include "helpful.h"
 
-Layer::Layer(SpecSheet &s, int this_layer)
+Layer::Layer(int this_layer)
 {
-    int bottom_layer = s.n_layers;
+    verify(spec->good(), "config is incomplete");
+
+    /* shorthand variables */
+    ConnectedLayerSpec *layer = &(spec->arch.fc_layers[this_layer]);
+    int bottom_layer = spec->arch.n_total;
     int top_layer = 0;
 
+    /* set input and output sizes */
     if (this_layer == bottom_layer)
-        n_neurons = s.n_output_channels;
+        n_neurons = spec->data.label_channels;
     else
-        n_neurons = s.architecture[this_layer];
+        n_neurons = layer->n_neurons;
 
     if (this_layer == top_layer)
-        n_inputs = s.n_input_channels;
+        n_inputs = spec->data.input_channels;
     else
-        n_inputs = s.architecture[this_layer - 1];
+        n_inputs = layer->n_neurons;
 
+    /* allocate and initialize arrays */
     spikes          = new int[n_neurons];
     times_pre_syn   = new int[n_inputs];
     times_post_syn  = new int[n_neurons];
-    v_thresholds    = new float[n_neurons];
-    stdp_thresholds = new float[n_neurons];
     voltages        = new float[n_neurons];
     voltages_stdp   = new float[n_neurons];
     weights = new float*[n_neurons];
     for (int j = 0; j < n_neurons; j++)
         weights[j] = new float[n_inputs];
-
 
     memset(times_pre_syn,   0, sizeof(int) * n_inputs);
     memset(spikes,          0, sizeof(int) * n_neurons);
@@ -37,25 +41,27 @@ Layer::Layer(SpecSheet &s, int this_layer)
     memset(voltages,        0, sizeof(float) * n_neurons);
     memset(voltages_stdp,   0, sizeof(float) * n_neurons);
 
-    size_t fbytes = sizeof(float) * n_neurons;
-    memset(v_thresholds,    s.v_thresholds[this_layer], fbytes);
-    memset(stdp_thresholds, s.stdp_thresholds[this_layer], fbytes);
-
-    winner = -1;
-    potentiation = s.learn_potentiation;
-    depression = s.learn_depression;
-    beta = s.learn_beta;
+    /* get data from spec */
+    v_threshold    = layer->v_threshold;
+    stdp_threshold = layer->stdp_threshold;
+    potentiation   = spec->learn.potentiation;
+    depression     = spec->learn.depression;
+    beta           = spec->learn.beta;
 
     /* initialize weights */
+    float init     = layer->weights.initial;
+    float variance = layer->weights.variance;
+
     srand(this_layer);
-    float init = s.initial_weights[this_layer];
-    float variance = s.initial_weights_variance[this_layer];
     for (int j = 0; j < n_neurons; j++) {
         for (int k = 0; k < n_inputs; k++) {
             float v = 2.f * variance * (float)(rand() % 100) / 100.f;
             weights[j][k] = init + (v - variance);
         }
     }
+
+    /* no inhibited neuron */
+    winner = -1;
 }
 
 Layer::~Layer()
@@ -63,8 +69,6 @@ Layer::~Layer()
     delete [] spikes;
     delete [] times_post_syn;
     delete [] times_pre_syn;
-    delete [] v_thresholds;
-    delete [] stdp_thresholds;
     delete [] voltages;
     delete [] voltages_stdp;
 
@@ -123,7 +127,7 @@ void Layer::increment_pre_times(int *synapses)
 void Layer::set_spikes()
 {
     for (int i = 0; i < n_neurons; i++)
-        if (voltages[i] > v_thresholds[i]) {
+        if (voltages[i] > v_threshold) {
             voltages[i] = 0;
             spikes[i] = 1;
         } else
@@ -133,7 +137,7 @@ void Layer::set_spikes()
 void Layer::set_inhibitions()
 {
     for (int i = 0; i < n_neurons; i++)
-        if (voltages_stdp[i] > stdp_thresholds[i])
+        if (voltages_stdp[i] > stdp_threshold)
             winner = i;
         else
             times_post_syn[i]++;

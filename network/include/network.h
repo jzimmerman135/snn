@@ -7,7 +7,7 @@
 
 class Network {
 public:
-    Network(SpecSheet &specs);
+    Network();
     ~Network();
     void train();
     void test();

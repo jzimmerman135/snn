@@ -17,7 +17,10 @@ $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@
 
-$(APP_DIR)/$(TARGET): $(OBJECTS)
+config.o: config.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@
+
+$(APP_DIR)/$(TARGET): $(OBJECTS) config.o
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -o $(APP_DIR)/$(TARGET) $^ $(LDFLAGS)
 

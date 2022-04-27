@@ -2,6 +2,7 @@
 #include <iostream>
 #include "reader.h"
 #include "helpful.h"
+#include "specs.h"
 
 using namespace std;
 
@@ -62,6 +63,9 @@ void Reader::read_input_data(std::string filename)
 
     for (int i = 0; i < n_inputs; i++)
         fread(labels[i], sizeof(float), n_output_channels, fp);
+
+    spec->data.input_channels = n_input_channels;
+    spec->data.label_channels = n_output_channels;
 
     return;
 }
