@@ -6,7 +6,7 @@ using namespace std;
 
                             BUILD THE NETWORK
 
-        this symbol means that the client can change parameter: <====
+                the '<====' symbol means CHANGE ME 
 
         layers should be defined with a static LayerSpec object
 
