@@ -25,4 +25,4 @@ class Dataset():
             header = "%i INPUTS, %i INPUT CHANNELS, %i OUTPUT CHANNELS\n" % (s1, s2, s3)
             file.write(header.encode('ascii'))
             file.write(self.input_data.tobytes())
-            # file.write(self.label_data.tobytes())
+            file.write(self.label_data.tobytes())

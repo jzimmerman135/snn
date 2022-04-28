@@ -21,16 +21,25 @@ int main(int argc, char **argv)
 
     cout << "hello" << endl;
 
+    float num = 0x12345678;
+
+    cout << num << endl;
+
+
     Reader train;
     Reader test;
     train.read_input_data(spec->data.train_filename);
     test.read_input_data(spec->data.test_filename);
 
-    for (int i = 0; i < train.n_elem(); i++)
-        train.print_input(i);
+    cout << "TRAINING: " << endl;
 
     for (int i = 0; i < train.n_elem(); i++)
         train.print_input(i);
+
+    cout << "TESTING: " << endl;
+
+    for (int i = 0; i < test.n_elem(); i++)
+        test.print_input(i);
 
     /*
 

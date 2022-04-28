@@ -4,5 +4,5 @@ if [ $# -ne 1 ]; then
         python3 $f
     done
 else
-    python3 /datasets/preprocessing/$1
+    python3 ./datasets/preprocessing/$1
 fi
