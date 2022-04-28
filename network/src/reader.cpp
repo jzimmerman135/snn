@@ -50,8 +50,6 @@ void Reader::read_input_data(std::string filename)
                         &n_inputs, &n_input_channels, &n_output_channels);
     verify(read == 3, "failed to read data file header");
 
-    cout << n_inputs << " "<< n_input_channels << " " <<  n_output_channels << endl;
-
     verify(fgetc(fp) == 10, "if this happens weird problem. Tell Jacob pls");
 
     inputs = new float*[n_inputs];

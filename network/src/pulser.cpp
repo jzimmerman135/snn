@@ -32,6 +32,11 @@ void Pulser::set_current(float *inputs)
         current[i] = inputs[i];
 }
 
+void Pulser::set_tau(float t)
+{
+    tau = t;
+}
+
 int *Pulser::spikes()
 {
     for (int i = 0; i < n_inputs; i++) {
@@ -49,4 +54,9 @@ int *Pulser::spikes()
     }
 
     return output;
+}
+
+int Pulser::size()
+{
+    return n_inputs;
 }

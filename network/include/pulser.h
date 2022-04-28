@@ -8,9 +8,11 @@ public:
 
     /* setters */
     void set_current(float *inputs);
+    void set_tau(float t);
 
     /* getters */
     int *spikes();
+    int size();
 
 private:
     float tau;

@@ -20,6 +20,7 @@ $(OBJ_DIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@
 
 $(OBJ_DIR)/%.o: $(MAIN_DIR)/%.cpp
+	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@
 
 $(OBJ_DIR)/config.o: config.cpp
