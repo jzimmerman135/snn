@@ -14,9 +14,8 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6010570/pdf/fncom-12-00046.pdf
 
 Unfinished:
   ALL lmao
-  
-GUI by Jacob Zimmerman
-
-C++ by Jacob Zimmerman and Jake Blum
-
-Python tools by Jake Blum
+ 
+Credits:
+* GUI by Jacob Zimmerman
+* C++ by Jacob Zimmerman and Jake Blum
+* Python tools by Jake Blum
