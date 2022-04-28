@@ -16,5 +16,7 @@ Unfinished:
   ALL lmao
   
 GUI by Jacob Zimmerman
+
 C++ by Jacob Zimmerman and Jake Blum
+
 Python tools by Jake Blum
