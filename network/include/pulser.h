@@ -13,7 +13,11 @@ public:
     int *spikes();
 
 private:
-    int counter;
+    float tau;
+
+    float *voltages;
+    float *deltas;
+
     int n_inputs;
 
     float *current; // input data

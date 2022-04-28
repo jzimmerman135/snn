@@ -9,6 +9,8 @@ Layer::Layer(int this_layer)
 {
     verify(spec->good(), "config is incomplete");
 
+    index = this_layer;
+
     /* shorthand variables */
     ConnectedLayerSpec *layer = &(spec->arch.fc_layers[this_layer]);
     int bottom_layer = spec->arch.n_total;

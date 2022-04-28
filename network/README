@@ -146,7 +146,7 @@ continuous series of bytes.
 j=neuron index (int)
 l=layer index (int)
 inp=input (float)
-outp=output (float)
+spike=spike (int)
 V=voltage (float)
 Vstdp=learning voltage (float)
 t=time of spike (float)
@@ -158,7 +158,7 @@ Linh=learning inhibition rate (float)
 
 ================ example.out =================
 
-j,l,input,output,V,Vstdp,t,Wj,nprev,Linh\n
+j,l,input,spike,V,Vstdp,t,Wj,nprev,Linh\n
 -,-,-,-,-,-,-,-,-,-\n
 
 ==============================================

@@ -80,7 +80,7 @@ static SpecSheet config = {
     },
 
     .cycles = {
-        .per_input = 1200, // <====
+        .per_input = 60, // <====
         .through_data = 2400 // <====
     },
 

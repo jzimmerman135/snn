@@ -19,15 +19,45 @@ int main(int argc, char **argv)
 {
     initialize_inputs(argc, argv);
 
+    cout << "hello" << endl;
+
     Reader train;
+    Reader test;
     train.read_input_data(spec->data.train_filename);
+    test.read_input_data(spec->data.test_filename);
 
     for (int i = 0; i < train.n_elem(); i++)
         train.print_input(i);
 
-    cout << train.input_channels() << endl;
-    cout << train.output_channels() << endl;
-    cout << train.n_elem() << endl;
+    for (int i = 0; i < train.n_elem(); i++)
+        train.print_input(i);
+
+    /*
+
+    Pulser encoder;
+    encoder.set_current(train.input(1));
+
+    int inputs = spec->data.input_channels;
+    int rounds = spec->cycles.per_input;
+
+    train.print_input(1);
+
+    for (int j = 0; j < rounds; j++) {
+        int *spike_train = encoder.spikes();
+        for (int i = 0; i < inputs; i++) {
+            cout << spike_train[i] << ",";
+        }
+        cout << endl;
+    }
+
+    */
+
+    // for (int i = 0; i < train.n_elem(); i++)
+    //     train.print_input(i);
+    //
+    // cout << train.input_channels() << endl;
+    // cout << train.output_channels() << endl;
+    // cout << train.n_elem() << endl;
 
     return 0;
 }

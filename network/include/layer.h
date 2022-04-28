@@ -4,11 +4,14 @@
 #include "specs.h"
 
 class Layer {
+friend class Logger;
 public:
     Layer(int i);
     ~Layer();
     int *feed(int *synapses);
     int size();
+
+    int index;
 
 private:
     int n_inputs;
