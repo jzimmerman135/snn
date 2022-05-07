@@ -103,3 +103,12 @@ void bit2_zero(bit2_t b2)
 
     memset(bdata, 0, sizeof(bit_t) * size);
 }
+
+extern void bit2_append(bit2_t b2_dest, bit2_t b2_src, int i)
+{
+    int size = b2_dest->x * b2_src->y;
+    bit_t *dest_data = b2_dest->data;
+    bit_t *src_data = b2_src->data;
+
+    memcpy(dest_data + size * i, src_data, size);
+}

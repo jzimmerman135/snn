@@ -51,9 +51,10 @@ bit2_t Filter_feed(Filter_T filter, bit2_t synapses)
     bit2_t output = NULL;
     for (int i = 0; i < n_filters; i++) {
          output = Layer_feed(filter->layers[i], synapses);
+         bit2_append(filter->spikes, output, i);
     }
 
-    return output;
+    return filter->spikes;
 }
 
 shape2_t Filter_shape(Filter_T filter)

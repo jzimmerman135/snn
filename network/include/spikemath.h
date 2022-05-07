@@ -31,6 +31,9 @@ extern void bit2_or(bit2_t b2_dest, bit2_t b2_src);
 /* all b2 = 0 */
 extern void bit2_zero(bit2_t b2);
 
+/* append src to dest at index i */
+/* must have same y value and dest x value must be multiple of y */
+extern void bit2_append(bit2_t b2_dest, bit2_t b2_src, int i);
 
 
 #endif
