@@ -7,8 +7,9 @@ void float2_addto(float2_t f2_dest, float2_t f2_src)
     float *dest_data = f2_dest->data;
     float *src_data = f2_src->data;
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++) {
         dest_data[i] += src_data[i];
+    }
 }
 
 float float2_bindot(float2_t f2, bit2_t b2)
@@ -33,7 +34,7 @@ void float2_binset(float2_t f2, bit2_t b2)
     bit_t *bdata = b2->data;
 
     for (int i = 0; i < size; i++) {
-        fdata[i] *= bdata[i];
+        fdata[i] *= 1 && bdata[i];
     }
 }
 
@@ -73,14 +74,14 @@ void float2_zero_if_any(float2_t f2, bit2_t b2)
     }
 }
 
-void bit2_binset_f2_greater_than(bit2_t b2, float2_t f2, float cmp)
+void bit2_binset_f2_greater_than(bit2_t b2, float2_t f2, float target)
 {
     int size = f2->x * f2->y;
     bit_t *bdata = b2->data;
     float *fdata = f2->data;
 
     for (int i = 0; i < size; i++) {
-        bdata[i] = fdata[i] > cmp;
+        bdata[i] = fdata[i] > target;
     }
 }
 
