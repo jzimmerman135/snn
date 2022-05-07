@@ -158,6 +158,9 @@ What is it's stdp acummulation? float.
 What is the timestamp? integer.
 
 Weights (sparse) (2d matrix (can be easily converted to 1d) )
+**Each neuron has its own weights 2d matrix**
+What is the timestamp?
+
 
 
 ================ example.out =================
