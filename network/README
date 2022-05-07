@@ -147,9 +147,21 @@ Linh=learning inhibition rate (float)
 
     Output .out files should be in the following format:
 
+
+What we can know:
+----------------
+
+Which layer? index. Which filter within layer (if applicable)? sub-index.
+Which neuron within layer? 2d coordinate.
+What is it's voltage? float.
+What is it's stdp acummulation? float.
+What is the timestamp? integer.
+
+Weights (sparse) (2d matrix (can be easily converted to 1d) )
+
+
 ================ example.out =================
 
-j,l,input,spike,V,Vstdp,t,Wj,nprev,Linh\n
--,-,-,-,-,-,-,-,-,-\n
+
 
 ==============================================

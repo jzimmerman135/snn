@@ -86,7 +86,8 @@ void Layer_accumulate(Layer_T layer, bit2_t synapses)
 
     int n_neurons = Layer_size(layer);
 
-    /* add incoming synapses to syn_pre */
+    /* add incoming synapses to syn_pre, to track which synapses have fired since
+    each neurons was last reset  */
     for (int i = 0; i < n_neurons; i++) {
         bit2_or(syn_pre[i], synapses);
     }
@@ -146,7 +147,7 @@ void Layer_train(Layer_T layer)
         float *w       = weights[i]->data;
 
         for (int j = 0; j < input_size; j++) {
-            /* if input fired before last reset */
+            /* if input neuron fired since last reset of layer neuron */
             if (syn_arr[j])
                 w[j] = potentiate(w[j], p, b);
             else

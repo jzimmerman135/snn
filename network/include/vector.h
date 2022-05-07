@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 typedef struct Vec_T *Vec_T;
+
 extern Vec_T Vec_new();
 extern void Vec_free(Vec_T *vec);
 extern void Vec_pushi(Vec_T vec, int elem);
