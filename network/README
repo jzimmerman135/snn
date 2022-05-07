@@ -31,19 +31,10 @@
 
 -------------------------------------------------------------------------------
 
-    Friday, April 22
-        organize the code
-        * COMPLETED *
-        get the layer module implemented and compiling
-        * Missing training step *
+    Finish pulser module with gaussian mean firing rate
 
-    Saturday, April 23
-        get the specification module to compile and read the config
-        * COMPLETED *
-        test the layer module
 
-    Sunday, April 24
-        First input dataset read in correctly
+    Simulate a layer for 10 rounds.
 
 *******************************************************************************
 

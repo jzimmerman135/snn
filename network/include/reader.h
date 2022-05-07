@@ -1,34 +1,19 @@
 #ifndef READER_INCLUDED
 #define READER_INCLUDED
 
-#include <iostream>
-#include "specs.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "layer.h"
 
-class Reader {
-public:
-    Reader();
-    ~Reader();
-
-    /* setters */
-
-    void read_input_data(std::string filename);
-
-    /* getters */
-
-    float *input(int i);
-    float *label(int i);
-    void print_input(int i);
-
-    int input_channels();
-    int output_channels();
-    int n_elem();
-private:
-    int n_input_channels;
-    int n_output_channels;
-
-    float **inputs;
-    float **labels;
-    int   n_inputs;
-};
+typedef struct Reader_T *Reader_T;
+extern Reader_T Reader_new(FILE *fp);
+extern void Reader_free(Reader_T *rdr);
+extern int Reader_size(Reader_T rdr);
+extern int Reader_input_channels(Reader_T rdr);
+extern int Reader_label_channels(Reader_T rdr);
+extern shape2_t Reader_input_shape(Reader_T rdr);
+extern float *Reader_input(Reader_T rdr, int i);
+extern float *Reader_label(Reader_T rdr, int i);
+extern void Reader_print(Reader_T rdr, int i);
 
 #endif
