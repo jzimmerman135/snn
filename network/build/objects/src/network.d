@@ -1,3 +1,3 @@
-build/objects/src/network.o: src/network.cpp include/network.h \
-  include/specs.h include/pulser.h include/reader.h include/logger.h \
-  include/layer.h
+build/objects/src/network.o: src/network.c include/network.h \
+  include/matrix.h include/reader.h include/layer.h include/filter.h \
+  include/encoder.h include/classifier.h include/assert.h

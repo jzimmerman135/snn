@@ -1,2 +1,2 @@
-build/objects/src/layer.o: src/layer.cpp include/layer.h include/specs.h \
-  include/helpful.h
+build/objects/src/layer.o: src/layer.c include/layer.h include/matrix.h \
+  include/spikemath.h

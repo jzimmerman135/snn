@@ -1,8 +1,11 @@
 #ifndef HELPFUL_INCLUDED
 #define HELPFUL_INCLUDED
 
-#include <iostream>
+#include "matrix.h"
+#include "stdio.h"
+#include "assert.h"
 
-void verify(bool success_case, std::string message);
+extern void fprintarrf(float *arr, int n_elem, FILE *fp);
+extern void fprintarrb(bit_t *arr, int n_elem, FILE *fp);
 
 #endif

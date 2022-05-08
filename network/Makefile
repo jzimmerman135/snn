@@ -1,4 +1,4 @@
-CXX      := g++
+CXX      := gcc
 CXXFLAGS := -pedantic-errors -Wall -Wextra -Werror
 LDFLAGS  := -lm
 BUILD    := ./build
@@ -6,21 +6,20 @@ OBJ_DIR  := $(BUILD)/objects
 APP_DIR  := $(BUILD)/apps
 TARGET   := program
 INCLUDE  := -Iinclude/
-SRC      := $(wildcard src/*.cpp)
+SRC      := $(wildcard src/*.c)
+SHELL    := /bin/sh
+OFLAGS   := -O1 -flto
 
-OBJECTS  := $(SRC:%.cpp=$(OBJ_DIR)/%.o)
+OBJECTS  := $(SRC:%.c=$(OBJ_DIR)/%.o)
 DEPENDENCIES := $(OBJECTS:.o=.d)
 
 all: build $(APP_DIR)/$(TARGET)
 
-$(OBJ_DIR)/%.o: %.cpp
+$(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@ $(OFLAGS)
 
-config.o: config.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@
-
-$(APP_DIR)/$(TARGET): $(OBJECTS) config.o
+$(APP_DIR)/$(TARGET): $(OBJECTS)
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -o $(APP_DIR)/$(TARGET) $^ $(LDFLAGS)
 

@@ -1,2 +1,2 @@
-build/objects/src/reader.o: src/reader.cpp include/reader.h \
-  include/specs.h include/helpful.h
+build/objects/src/reader.o: src/reader.c include/reader.h include/layer.h \
+  include/matrix.h
