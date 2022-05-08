@@ -2,6 +2,7 @@
 #include "layer.h"
 #include "spikemath.h"
 #include "helpful.h"
+#include <stdio.h>
 
 void Layer_accumulate(Layer_T layer, bit2_t synapses);
 void Layer_train(Layer_T layer);
@@ -15,7 +16,7 @@ Layer_T Layer_new(shape2_t output_shape, shape2_t input_shape)
     layer->shape = s;
     layer->input_shape = in;
 
-    int n_neurons = s.x * s.y;
+    int n_neurons = layer->shape.x * layer->shape.y;
 
     layer->weights = malloc(sizeof(float2_t) * n_neurons);
     layer->syn_pre = malloc(sizeof(bit2_t) * n_neurons);
@@ -39,7 +40,7 @@ Layer_T Layer_new(shape2_t output_shape, shape2_t input_shape)
     layer->depression    = 0.1;
     layer->beta          = 0.02;
 
-    fprintshp("ADDED A NEW LAYER OF ", &layer->shape, stderr);
+    fprintshp("ADDED A NEW LAYER!", &layer->shape, stderr);
 
     return layer;
 }
@@ -47,18 +48,23 @@ Layer_T Layer_new(shape2_t output_shape, shape2_t input_shape)
 
 void Layer_free(Layer_T *layer)
 {
-    int size = (*layer)->shape.x * (*layer)->shape.y;
-    for (int i = 0; i < size; i++) {
+    fprintf(stderr, "I GOT CALLED!!\n");
+    int n_neurons = (*layer)->shape.x * (*layer)->shape.y;
+
+    for (int i = 0; i < n_neurons; i++) {
         float2_free(&(*layer)->weights[i]);
         bit2_free(&(*layer)->syn_pre[i]);
     }
 
+    float2_free(&(*layer)->currents);
     float2_free(&(*layer)->voltages);
     float2_free(&(*layer)->voltages_stdp);
 
     bit2_free(&(*layer)->inferences);
     bit2_free(&(*layer)->stdp_spikes);
 
+    free((*layer)->weights);
+    free((*layer)->syn_pre);
     free(*layer);
 }
 

@@ -16,4 +16,8 @@ extern int Network_feed(Network_T net, float2_t input, float2_t label);
 extern Layer_T Network_layer_at(Network_T net, int i);
 extern Filter_T Network_filter_at(Network_T net, int i);
 
+/*
+private void propagate_spikes(Network_T net);         // just for clarity
+*/
+
 #endif
