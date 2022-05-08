@@ -81,3 +81,8 @@ static float distribution(float x)
 {
     return 3 * (x * x * x) - 4.5 * (x * x) + 2.5 * (x);
 }
+
+shape2_t Encoder_shape(Encoder_T e)
+{
+    return &e->shape;
+}

@@ -7,6 +7,7 @@ APP_DIR  := $(BUILD)/apps
 TARGET   := program
 INCLUDE  := -Iinclude/
 SRC      := $(wildcard src/*.c)
+SHELL    := /bin/sh
 OFLAGS   := -O1 -flto
 
 OBJECTS  := $(SRC:%.c=$(OBJ_DIR)/%.o)

@@ -10,4 +10,5 @@ extern Encoder_T Encoder_new(shape2_t shape);
 extern void Encoder_free(Encoder_T *e);
 extern void Encoder_set_current(Encoder_T e, float *currents);
 extern bit2_t Encoder_spikes(Encoder_T e);
+extern shape2_t Encoder_shape(Encoder_T e);
 #endif

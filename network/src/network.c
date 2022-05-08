@@ -2,52 +2,127 @@
 #include <stdio.h>
 #include "network.h"
 #include "layer.h"
+#include "filter.h"
+#include "encoder.h"
+#include "classifier.h"
+#include "assert.h"
+
+#define N_CYCLES 1000
 
 struct Network_T {
-    shape2_t input_shape;
-    shape2_t label_shape;
-    int n_cv;
-    int n_fc;
-    Layer_T *fc_layers;
+    struct shape2_t input_shape;
+    struct shape2_t label_shape;
+    int n_filters;
+    int n_layers;
+    Encoder_T encoder;
+    Classifier_T classifier;
+    Filter_T *filters;
+    Layer_T *layers;
+    float MSE;
 };
 
-Network_T Network_new(Arch_T arch, shape2_t input, shape2_t label)
+Network_T Network_new(shape2_t input_shape, shape2_t label_shape)
 {
     Network_T net = malloc(sizeof(Network_T));
 
-    net->input_shape = input;
-    net->label_shape = label;
-    net->n_cv = arch->n_cv;
-    net->n_fc = arch->n_fc;
+    net->input_shape = *input_shape;
+    net->label_shape = *label_shape;
 
-    net->fc_layers = malloc(sizeof(Layer_T) * net->n_fc);
-    for (int i = 0; i < net->n_fc; i++)
-        net->fc_layers[i] = NULL;
+    net->encoder    = Encoder_new(input_shape);
+    net->classifier = Classifier_new(label_shape);
 
-    shape2_t shp = malloc(sizeof(struct shape2_t));
-    shp->x = 6;
-    shp->y = 1;
+    net->n_layers  = 0;
+    net->n_filters = 0;
 
-    net->fc_layers[0] = Layer_new(shp, input);
-    net->fc_layers[1] = Layer_new(label, shp);
-
-    free(shp);
+    net->layers  = NULL;
+    net->filters = NULL;
 
     return net;
 }
 
-void Network_free(Network_T  *net)
+void Network_free(Network_T *net)
 {
-    Layer_free(&(*net)->fc_layers[0]);
-    Layer_free(&(*net)->fc_layers[1]);
+    for (int i = 0; i < (*net)->n_filters; i++)
+        Filter_free(&(*net)->filters[i]);
 
-    free((*net)->fc_layers);
+    for (int i = 0; i < (*net)->n_layers; i++)
+        Layer_free(&(*net)->layers[i]);
+
+    Classifier_free(&(*net)->classifier);
+    Encoder_free(&(*net)->encoder);
+
+    free((*net)->filters);
+    free((*net)->layers);
     free(*net);
 }
 
-
-bit2_t Network_feed(Network_T net, bit2_t spikes)
+void Network_add_layer(Network_T net, shape2_t shape)
 {
-    (void)net, (void)spikes;
-    return NULL;
+    net->layers = realloc(net->layers, sizeof(Layer_T) * (net->n_layers + 1));
+
+    /* start with input shape as encoder */
+    shape2_t input = Encoder_shape(net->encoder);
+
+    /* if there are filters make it the last one */
+    if (net->n_filters != 0)
+        input = Filter_shape(net->filters[net->n_filters]);
+
+    /* if there are layers make it the last one */
+    if (net->n_layers != 0)
+        input = Layer_shape(net->layers[net->n_layers]);
+
+    net->layers[net->n_layers] = Layer_new(shape, input);
+    net->n_layers++;
+}
+
+void Network_add_filter(Network_T net, shape2_t shape, int n_filters)
+{
+    /* filters must come before layers */
+    assert(net->n_layers == 0);
+
+    net->filters = realloc(net->filters,
+                           sizeof(Filter_T) * (net->n_filters + 1));
+
+    /* start with input shape as encoder */
+    shape2_t input = Encoder_shape(net->encoder);
+
+    /* if there are filters make it the last one */
+    if (net->n_filters != 0)
+        input = Filter_shape(net->filters[net->n_filters]);
+
+    net->filters[net->n_filters] = Filter_new(shape, input, n_filters);
+    net->n_filters++;
+}
+
+static inline void propagate_spikes(Network_T net);
+
+int Network_feed(Network_T net, float2_t input, float2_t label)
+{
+    int decision, n_cycles = N_CYCLES;
+
+    Encoder_set_current(net->encoder, input->data);
+
+    for (int i = 0; i < n_cycles; i++)
+        propagate_spikes(net);
+
+    decision = Classfier_decision(net->classifier);
+    net->MSE = Classifier_MSE(net->classifier, label);
+    Classifier_reset(net->classifier);
+
+    return decision;
+}
+
+static inline void propagate_spikes(Network_T net)
+{
+    int n_filters = net->n_filters;
+    int n_layers  = net->n_layers;
+    bit2_t spikes = Encoder_spikes(net->encoder);
+
+    for (int i = 0; i < n_filters; i++)
+        spikes = Filter_feed(net->filters[i], spikes);
+
+    for (int i = 0; i < n_layers; i++)
+        spikes = Layer_feed(net->layers[i], spikes);
+
+    Classifier_feed(net->classifier, spikes);
 }
