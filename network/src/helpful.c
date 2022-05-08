@@ -24,3 +24,15 @@ void fprintshp(char *msg, void *shp, FILE *fp)
     shape2_t shape = (shape2_t)shp;
     fprintf(fp, "%sShape is [%i x %i]\n", msg, shape->x, shape->y);
 }
+
+
+
+
+void check_usage(int argc)
+{
+    if (argc < 3) {
+        fprintf(stderr, "Error: missing arguments from "
+                        "./program [training.data] [testing.data]\n");
+        exit(1);
+    }
+}

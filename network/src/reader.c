@@ -1,9 +1,10 @@
 #include "reader.h"
 
 struct Reader_T {
+    struct shape2_t input_shape;
+    struct shape2_t label_shape;
     float **inputs;
     float **labels;
-    struct shape2_t shape;
     int n_inputs;
     int n_input_channels;
     int n_label_channels;
@@ -44,8 +45,11 @@ Reader_T Reader_new(FILE *fp)
         fread(rdr->labels[i], sizeof(float), rdr->n_label_channels, fp);
 
     /* TODO: FIX ME */
-    rdr->shape.x = rdr->n_input_channels;
-    rdr->shape.y = 1;
+    rdr->input_shape.x = rdr->n_input_channels;
+    rdr->input_shape.y = 1;
+
+    rdr->label_shape.x = rdr->n_label_channels;
+    rdr->label_shape.y = 1;
 
     return rdr;
 }
@@ -78,9 +82,14 @@ int Reader_label_channels(Reader_T rdr)
     return rdr->n_label_channels;
 }
 
-shape2_t Reader_input_shape(Reader_T rdr)
+shape2_t Reader_shape_input(Reader_T rdr)
 {
-    return &(rdr->shape);
+    return &rdr->input_shape;
+}
+
+shape2_t Reader_shape_label(Reader_T rdr)
+{
+    return &rdr->label_shape;
 }
 
 float *Reader_input(Reader_T rdr, int i)

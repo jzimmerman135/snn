@@ -5,8 +5,9 @@
 #include "encoder.h"
 #include "filter.h"
 #include "layer.h"
+#include "helpful.h"
+#include "network.h"
 
-void check_usage(int argc);
 Reader_T Reader_new_from_argv(char *argv);
 
 int main(int argc, char **argv)
@@ -17,24 +18,13 @@ int main(int argc, char **argv)
 
     Reader_print(train_data, 0);
     Reader_print(test_data, 0);
+    shape2_t input_shape = Reader_shape_input(train_data);
+    shape2_t label_shape = Reader_shape_label(train_data);
+    Network_T network = Network_new(input_shape, label_shape);
 
-    // int n_input_channels = Reader_input_channels(train_data);
-    // shape2_t input_shape = Reader_input_shape(train_data);
-    // Encoder_T encoder = Encoder_new(input_shape);
-    //
-    // float *input_raw = Reader_input(train_data, 0);
-    // Encoder_set_current(encoder, input_raw);
-    //
-    // for (int i = 0; i < 200; i++) {
-    //     printf("[ ");
-    //     bit2_t synapses = Encoder_spikes(encoder);
-    //     for (int j = 0; j < n_input_channels; j++) {
-    //         printf("%i,", synapses->data[j]);
-    //     }
-    //     printf("\b ]\n");
-    // }
-    //
-    // Encoder_free(&encoder);
+    printf("Hello\n");
+
+    Network_free(&network);
     Reader_free(&train_data);
     Reader_free(&test_data);
 }
@@ -52,13 +42,4 @@ Reader_T Reader_new_from_argv(char *argv)
     Reader_T data = Reader_new(fp);
     fclose(fp);
     return data;
-}
-
-void check_usage(int argc)
-{
-    if (argc < 3) {
-        fprintf(stderr, "Error: missing arguments from "
-                        "./program [training.data] [testing.data]\n");
-        exit(1);
-    }
 }
