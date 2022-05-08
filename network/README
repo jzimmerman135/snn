@@ -165,6 +165,7 @@ What is the timestamp?
 
 ================ example.out =================
 
-
+Layer,row,column,voltage,stdp,time,weight_array,
+X,x,x,x,x,x,[x,x]
 
 ==============================================
