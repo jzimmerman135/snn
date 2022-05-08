@@ -17,5 +17,5 @@ Unfinished:
  
 Credits:
 * GUI by Jacob Zimmerman
-* C++ by Jacob Zimmerman and Jake Blum
+* C by Jacob Zimmerman
 * Python tools by Jake Blum
