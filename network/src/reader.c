@@ -43,6 +43,7 @@ Reader_T Reader_new(FILE *fp)
     for (int i = 0; i < rdr->n_inputs; i++)
         fread(rdr->labels[i], sizeof(float), rdr->n_label_channels, fp);
 
+    /* TODO: FIX ME */
     rdr->shape.x = rdr->n_input_channels;
     rdr->shape.y = 1;
 

@@ -1,6 +1,7 @@
 #include <math.h>
 #include "layer.h"
 #include "spikemath.h"
+#include "helpful.h"
 
 void Layer_accumulate(Layer_T layer, bit2_t synapses);
 void Layer_train(Layer_T layer);
@@ -37,6 +38,8 @@ Layer_T Layer_new(shape2_t output_shape, shape2_t input_shape)
     layer->potentiation  = 0.8;
     layer->depression    = 0.1;
     layer->beta          = 0.02;
+
+    fprintshp("ADDED A NEW LAYER OF ", &layer->shape, stderr);
 
     return layer;
 }

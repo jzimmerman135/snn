@@ -1,5 +1,6 @@
 #include "helpful.h"
 #include <stdio.h>
+#include "layer.h"
 
 void fprintarrf(float *arr, int n_elem, FILE *fp)
 {
@@ -16,4 +17,10 @@ void fprintarrb(bit_t *arr, int n_elem, FILE *fp)
     for (int i = 0; i < n_elem; i++)
         fprintf(fp, "%i, ", arr[i]);
     fprintf(fp, "\b\b ]\n");
+}
+
+void fprintshp(char *msg, void *shp, FILE *fp)
+{
+    shape2_t shape = (shape2_t)shp;
+    fprintf(fp, "%sShape is [%i x %i]\n", msg, shape->x, shape->y);
 }

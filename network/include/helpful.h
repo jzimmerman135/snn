@@ -7,5 +7,6 @@
 
 extern void fprintarrf(float *arr, int n_elem, FILE *fp);
 extern void fprintarrb(bit_t *arr, int n_elem, FILE *fp);
+extern void fprintshp(char *msg, void *shp, FILE *fp);
 
 #endif

@@ -3,6 +3,8 @@
 
 #include "matrix.h"
 #include "reader.h"
+#include "layer.h"
+#include "filter.h"
 
 typedef struct Network_T *Network_T;
 
@@ -11,5 +13,7 @@ extern void Network_free(Network_T *net);
 extern void Network_add_layer(Network_T net, shape2_t shape);
 extern void Network_add_filter(Network_T net, shape2_t shape, int n_filters);
 extern int Network_feed(Network_T net, float2_t input, float2_t label);
+extern Layer_T Network_layer_at(Network_T net, int i);
+extern Filter_T Network_filter_at(Network_T net, int i);
 
 #endif

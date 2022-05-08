@@ -126,3 +126,15 @@ static inline void propagate_spikes(Network_T net)
 
     Classifier_feed(net->classifier, spikes);
 }
+
+Layer_T Network_layer_at(Network_T net, int i)
+{
+    assert(i >= 0 && i < net->n_layers);
+    return net->layers[i];
+}
+
+Filter_T Network_filter_at(Network_T net, int i)
+{
+    assert(i >= 0 && i < net->n_filters);
+    return net->filters[i];
+}
