@@ -1,8 +1,8 @@
 #include "encoder.h"
 #include "assert.h"
 #include "spikemath.h"
-
-
+#include "stdio.h"
+#include "helpful.h"
 
 struct Encoder_T {
     float threshold;
@@ -21,20 +21,38 @@ Encoder_T Encoder_new(shape2_t shape)
     struct shape2_t s = *shape;
 
     e->threshold = 1.f;
-    e->shape = s;
+    e->shape = *shape;
+
     e->dv = float2_new(s.x, s.y);
-    e->v = float2_new(s.x, s.y);
+    e->v  = float2_new(s.x, s.y);
     e->spikes = bit2_new(s.x, s.y);
+
+    fprintf(stderr, "%px initalize addy of e->v\n", (void*)e->v);
+    fprintf(stderr, "%px initalize addy of e->dv\n", (void*)e->dv);
+    fprintf(stderr, "%px initalize addy of e->spikes\n", (void*)e->spikes);
 
     return e;
 }
 
 void Encoder_free(Encoder_T *e)
 {
+
+    fprintf(stderr, "%px final addy of e->dv\n", (void*)(*e)->dv);
+    fprintf(stderr, "%px final addy of e->v\n", (void*)(*e)->v);
+    fprintf(stderr, "%px final addy of e->spikes\n", (void*)(*e)->spikes);
+
+
+    fprintf(stderr, "GONNA FREE %px with data %px \n", (void*)(*e)->dv, (void*)(*e)->dv->data);
     float2_free(&(*e)->dv);
+
+    fprintf(stderr, "%px final addy of e->v\n", (void*)(*e)->v);
+    fprintf(stderr, "%px final addy of e->spikes\n", (void*)(*e)->spikes);
+
     float2_free(&(*e)->v);
     bit2_free(&(*e)->spikes);
+
     free(*e);
+
 }
 
 /* change to alter nonlinear distrubution of spike frequency across [0, 1] */
@@ -45,6 +63,7 @@ void Encoder_set_current(Encoder_T e, float *currents)
     int size = e->shape.x * e->shape.y;
     float *dv = e->dv->data;
 
+    /* determines distribution of spike firing rate based on input */
     for (int i = 0; i < size; i++)
         dv[i] = distribution(currents[i]);
 }

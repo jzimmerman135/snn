@@ -25,9 +25,6 @@ void fprintshp(char *msg, void *shp, FILE *fp)
     fprintf(fp, "%sShape is [%i x %i]\n", msg, shape->x, shape->y);
 }
 
-
-
-
 void check_usage(int argc)
 {
     if (argc < 3) {

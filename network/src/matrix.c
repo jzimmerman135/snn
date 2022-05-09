@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include "matrix.h"
 #include <string.h>
+#include <stdio.h>
+#include "assert.h"
 
 /*
 static inline int idx2(int x, int y, int x_max)
@@ -62,10 +64,11 @@ void float3_free(float3_t *f3)
 bit2_t bit2_new(int x, int y)
 {
     bit2_t b2 = malloc(sizeof(struct bit2_t));
-    b2->data = malloc(sizeof(int) * x * y);
+    b2->data = malloc(sizeof(bit_t) * x * y);
     b2->x = x;
     b2->y = y;
-    memset(b2->data, 0, sizeof(int) * x * y);
+    memset(b2->data, 0, sizeof(bit_t) * x * y);
+
     return b2;
 }
 

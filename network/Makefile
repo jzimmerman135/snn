@@ -1,5 +1,5 @@
-CXX      := gcc
-CXXFLAGS := -pedantic-errors -Wall -Wextra -Werror
+CC       := gcc
+CFLAGS   := -pedantic-errors -Wall -Wextra -Werror
 LDFLAGS  := -lm
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
@@ -17,11 +17,11 @@ all: build $(APP_DIR)/$(TARGET)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@ $(OFLAGS)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -MMD -o $@
 
 $(APP_DIR)/$(TARGET): $(OBJECTS)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) -o $(APP_DIR)/$(TARGET) $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $(APP_DIR)/$(TARGET) $^ $(LDFLAGS)
 
 -include $(DEPENDENCIES)
 
@@ -31,10 +31,10 @@ build:
 	@mkdir -p $(APP_DIR)
 	@mkdir -p $(OBJ_DIR)
 
-debug: CXXFLAGS += -DDEBUG -g
+debug: CFLAGS += -DDEBUG -g
 debug: all
 
-release: CXXFLAGS += -O2
+release: CFLAGS += $(OFLAGS)
 release: all
 
 leak:

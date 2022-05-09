@@ -40,7 +40,7 @@ Layer_T Layer_new(shape2_t output_shape, shape2_t input_shape)
     layer->depression    = 0.1;
     layer->beta          = 0.02;
 
-    fprintshp("ADDED A NEW LAYER!", &layer->shape, stderr);
+    fprintshp("ADDED A NEW LAYER! ", &layer->shape, stderr);
 
     return layer;
 }
@@ -48,7 +48,6 @@ Layer_T Layer_new(shape2_t output_shape, shape2_t input_shape)
 
 void Layer_free(Layer_T *layer)
 {
-    fprintf(stderr, "I GOT CALLED!!\n");
     int n_neurons = (*layer)->shape.x * (*layer)->shape.y;
 
     for (int i = 0; i < n_neurons; i++) {

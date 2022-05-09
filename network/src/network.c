@@ -48,17 +48,27 @@ void Network_free(Network_T *net)
     for (int i = 0; i < (*net)->n_layers; i++)
         Layer_free(&(*net)->layers[i]);
 
+
     Classifier_free(&(*net)->classifier);
+    fprintf(stderr, "success\n");
     Encoder_free(&(*net)->encoder);
+    fprintf(stderr, "YAYAYA\n");
+
+
+    // fprintf(stderr, "%px layers array address\n", (void*)(*net)->layers);
 
     free((*net)->filters);
     free((*net)->layers);
+
     free(*net);
 }
 
 void Network_add_layer(Network_T net, shape2_t shape)
 {
     net->layers = realloc(net->layers, sizeof(Layer_T) * (net->n_layers + 1));
+    assert(net->layers);
+
+    // fprintf(stderr, "%px layers array address initialize\n", (void*)net->layers);
 
     /* start with input shape as encoder */
     shape2_t input = Encoder_shape(net->encoder);
@@ -105,7 +115,7 @@ int Network_feed(Network_T net, float2_t input, float2_t label)
     for (int i = 0; i < n_cycles; i++)
         propagate_spikes(net);
 
-    decision = Classfier_decision(net->classifier);
+    decision = Classifier_decision(net->classifier);
     net->MSE = Classifier_MSE(net->classifier, label);
     Classifier_reset(net->classifier);
 
