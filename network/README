@@ -6,23 +6,17 @@
 
     Make:
     -----
-        make all
+        make
 
-    Run:
-    ----
-        to make data
-        ** FROM WITHIN NETWORK DIRECTORY **
+    Prepare input data:
+    -------------------
         ./make_data
         or to make a specific file use
         ./make_data make_xor.py
 
-    Test:
+    Run:
     -----
-        ./test
-
-    Config:
-    -------
-        See recommended configs for each dataset below
+        ./run train_file.data test_file.data log_filename.out
 
 
 *******************************************************************************
@@ -42,20 +36,19 @@
 
 -------------------------------------------------------------------------------
 
-    [ snn ]
+    [ network ]
        |
        |-------- [ scripts ]
        |            |------ shell scripts to run default data
        |
        |-------- [ src ]
-       |            |------ all .cpp files
-       |            |------ snn.cpp (main function)
+       |            |------ all .c files
+       |            |------ main.c (main function, use to customize topology)
        |
        |-------- [ build ]
        |            |
        |            |------ [ apps ]
-       |            |           |------ snn (executable)
-       |            |           |------ config.snn
+       |            |           |------ program (executable)
        |            |
        |            |------ [ objects ]
        |                        |------ all .o files
@@ -77,14 +70,14 @@
 
 *******************************************************************************
 
-                                C++ MODULES
+                                C MODULES
 
 -------------------------------------------------------------------------------
 
-    Specs Module:
+    Filter Module:
     -------------
-        SpecSheet object that reads from config.snn in /build/apps/ directory
-        Contains all initialization data for the snn
+	Contains a custom structure of feature maps. Basically multiple layers
+	connected by inter-map inhibition. 
 
     Layer Module:
     -------------
@@ -95,7 +88,7 @@
         Initializes each layer
         Controls flow of input data into network
 
-    Measure Module:
+    Logger Module:
     ---------------
         Given a network object, stores extensive amounts of data about the
         runtime state of the network.
