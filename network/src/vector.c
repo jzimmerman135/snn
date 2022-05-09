@@ -67,7 +67,7 @@ void Vec_pushp(Vec_T vec, void *elem)
     if (vec->length == vec->capacity)
         Vec_expand(vec);
 
-    *(uintptr_t*)Vec_at(vec, vec->length) = (uintptr_t)elem;
+    *Vec_at(vec, vec->length) = elem;
     ++vec->length;
 }
 
