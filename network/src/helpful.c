@@ -22,7 +22,7 @@ void fprintarrb(bit_t *arr, int n_elem, FILE *fp)
 void fprintshp(char *msg, void *shp, FILE *fp)
 {
     shape2_t shape = (shape2_t)shp;
-    fprintf(fp, "%sShape is [%i x %i]\n", msg, shape->x, shape->y);
+    fprintf(fp, "%s[%i x %i]\n", msg, shape->x, shape->y);
 }
 
 void check_usage(int argc)

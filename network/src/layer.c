@@ -41,6 +41,7 @@ Layer_T Layer_new(shape2_t output_shape, shape2_t input_shape)
     layer->beta          = 0.02;
 
     fprintshp("ADDED A NEW LAYER! ", &layer->shape, stderr);
+    fprintshp("New layer's input has ", &layer->input_shape, stderr);
 
     return layer;
 }
@@ -65,6 +66,8 @@ void Layer_free(Layer_T *layer)
     free((*layer)->weights);
     free((*layer)->syn_pre);
     free(*layer);
+
+    fprintf(stderr, "Layer freed.\n");
 }
 
 void Layer_connect_inhibition(Layer_T layer, bit2_t inh_matrix)

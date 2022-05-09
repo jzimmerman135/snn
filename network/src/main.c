@@ -43,6 +43,8 @@ int main(int argc, char **argv)
     Model_train(network, train_data);
     Model_train(network, test_data);
 
+    fprintf(stderr, "Starting to free things\n");
+
     Network_free(&network);
     Reader_free(&train_data);
     Reader_free(&test_data);

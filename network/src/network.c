@@ -6,6 +6,7 @@
 #include "encoder.h"
 #include "classifier.h"
 #include "assert.h"
+#include "helpful.h"
 
 #define N_CYCLES 1000
 
@@ -50,8 +51,10 @@ void Network_free(Network_T *net)
 
 
     Classifier_free(&(*net)->classifier);
-    fprintf(stderr, "success\n");
+    fprintf(stderr, "'All layers and filters and classifier are freed' -network\n");
+
     Encoder_free(&(*net)->encoder);
+
     fprintf(stderr, "YAYAYA\n");
 
 
@@ -61,6 +64,7 @@ void Network_free(Network_T *net)
     free((*net)->layers);
 
     free(*net);
+    *net = NULL;
 }
 
 void Network_add_layer(Network_T net, shape2_t shape)
@@ -92,6 +96,7 @@ void Network_add_filter(Network_T net, shape2_t shape, int n_filters)
 
     net->filters = realloc(net->filters,
                            sizeof(Filter_T) * (net->n_filters + 1));
+    assert(net->layers);
 
     /* start with input shape as encoder */
     shape2_t input = Encoder_shape(net->encoder);

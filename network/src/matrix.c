@@ -32,8 +32,12 @@ float2_t float2_new(int x, int y)
 
 void float2_free(float2_t *f2)
 {
+    fprintf(stderr, "Gonna free a float2_t at %px, the member data I mean\n", (void*)(*f2));
     free((*f2)->data);
+    fprintf(stderr, "Gonna free a float2_t at %px\n", (void*)(*f2));
     free(*f2);
+    fprintf(stderr, "Successfully freed a float2\n");
+    *f2 = NULL;
 }
 
 /******************************************************************************
@@ -55,6 +59,7 @@ void float3_free(float3_t *f3)
 {
     free((*f3)->data);
     free(*f3);
+    *f3 = NULL;
 }
 
 /******************************************************************************
@@ -76,6 +81,7 @@ void bit2_free(bit2_t *b2)
 {
     free((*b2)->data);
     free(*b2);
+    *b2 = NULL;
 }
 
 /******************************************************************************
@@ -97,6 +103,7 @@ void bit3_free(bit3_t *b3)
 {
     free((*b3)->data);
     free(*b3);
+    *b3 = NULL;
 }
 
 /******************************************************************************
@@ -117,4 +124,5 @@ void int2_free(int2_t *i2)
 {
     free((*i2)->data);
     free(*i2);
+    *i2 = NULL;
 }
