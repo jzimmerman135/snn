@@ -66,8 +66,7 @@ void Layer_free(Layer_T *layer)
     free((*layer)->weights);
     free((*layer)->syn_pre);
     free(*layer);
-
-    fprintf(stderr, "Layer freed.\n");
+    *layer = NULL;
 }
 
 void Layer_connect_inhibition(Layer_T layer, bit2_t inh_matrix)

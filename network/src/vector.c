@@ -1,5 +1,6 @@
 #include "vector.h"
 #include "assert.h"
+#include <stdint.h>
 
 #define INIT_SIZE 16
 
@@ -67,7 +68,7 @@ void Vec_pushp(Vec_T vec, void *elem)
     if (vec->length == vec->capacity)
         Vec_expand(vec);
 
-    *Vec_at(vec, vec->length) = elem;
+    *(uintptr_t*)Vec_at(vec, vec->length) = (uintptr_t)elem;
     ++vec->length;
 }
 

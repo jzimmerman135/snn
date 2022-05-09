@@ -24,7 +24,7 @@ struct Network_T {
 
 Network_T Network_new(shape2_t input_shape, shape2_t label_shape)
 {
-    Network_T net = malloc(sizeof(Network_T));
+    Network_T net = malloc(sizeof(struct Network_T));
 
     net->input_shape = *input_shape;
     net->label_shape = *label_shape;
@@ -51,14 +51,7 @@ void Network_free(Network_T *net)
 
 
     Classifier_free(&(*net)->classifier);
-    fprintf(stderr, "'All layers and filters and classifier are freed' -network\n");
-
     Encoder_free(&(*net)->encoder);
-
-    fprintf(stderr, "YAYAYA\n");
-
-
-    // fprintf(stderr, "%px layers array address\n", (void*)(*net)->layers);
 
     free((*net)->filters);
     free((*net)->layers);
@@ -72,20 +65,20 @@ void Network_add_layer(Network_T net, shape2_t shape)
     net->layers = realloc(net->layers, sizeof(Layer_T) * (net->n_layers + 1));
     assert(net->layers);
 
-    // fprintf(stderr, "%px layers array address initialize\n", (void*)net->layers);
-
     /* start with input shape as encoder */
     shape2_t input = Encoder_shape(net->encoder);
 
     /* if there are filters make it the last one */
     if (net->n_filters != 0)
-        input = Filter_shape(net->filters[net->n_filters]);
+        input = Filter_shape(net->filters[net->n_filters - 1]);
 
     /* if there are layers make it the last one */
     if (net->n_layers != 0)
-        input = Layer_shape(net->layers[net->n_layers]);
+        input = Layer_shape(net->layers[net->n_layers - 1]);
+
 
     net->layers[net->n_layers] = Layer_new(shape, input);
+
     net->n_layers++;
 }
 
@@ -103,7 +96,7 @@ void Network_add_filter(Network_T net, shape2_t shape, int n_filters)
 
     /* if there are filters make it the last one */
     if (net->n_filters != 0)
-        input = Filter_shape(net->filters[net->n_filters]);
+        input = Filter_shape(net->filters[net->n_filters - 1]);
 
     net->filters[net->n_filters] = Filter_new(shape, input, n_filters);
     net->n_filters++;

@@ -27,36 +27,12 @@ Encoder_T Encoder_new(shape2_t shape)
     e->v  = float2_new(s.x, s.y);
     e->spikes = bit2_new(s.x, s.y);
 
-    fprintf(stderr, "NEW ENCODER\n");
-    fprintshp("Encoder shape is ", &e->shape, stderr);
-    fprintf(stderr, "%px initalize addy of e->dv\n", (void*)e->dv);
-    fprintf(stderr, "%px initalize addy of e->v\n", (void*)e->v);
-    fprintf(stderr, "%px initalize addy of e->spikes\n", (void*)e->spikes);
-    fprintf(stderr, "dimensions of dv [%ix%i]\n", e->dv->x, e->dv->y);
-    fprintf(stderr, "dimensions of v [%ix%i]\n", e->v->x, e->v->y);
-    fprintf(stderr, "dimensions of spikes [%ix%i]\n\n", e->spikes->x, e->spikes->y);
-
     return e;
 }
 
 void Encoder_free(Encoder_T *e)
 {
-    fprintf(stderr, "FREEING ENCODER\n");
-    fprintf(stderr, "%px final addy of e->dv\n", (void*)(*e)->dv);
-    fprintf(stderr, "%px final addy of e->v\n", (void*)(*e)->v);
-    fprintf(stderr, "%px final addy of e->spikes\n", (void*)(*e)->spikes);
-    fprintf(stderr, "dimensions of dv [%ix%i]\n", (*e)->dv->x, (*e)->dv->y);
-    fprintf(stderr, "dimensions of v [%ix%i]\n", (*e)->v->x, (*e)->v->y);
-    fprintf(stderr, "dimensions of spikes [%ix%i]\n\n", (*e)->spikes->x, (*e)->spikes->y);
-
-
-    fprintf(stderr, "GONNA FREE %px with data %px \n", (void*)(*e)->dv, (void*)(*e)->dv->data);
     float2_free(&(*e)->dv);
-
-
-    fprintf(stderr, "%px final addy of e->v\n", (void*)(*e)->v);
-    fprintf(stderr, "%px final addy of e->spikes\n", (void*)(*e)->spikes);
-
     float2_free(&(*e)->v);
     bit2_free(&(*e)->spikes);
 
@@ -112,6 +88,5 @@ static float distribution(float x)
 
 shape2_t Encoder_shape(Encoder_T e)
 {
-    fprintshp("Encoder REQUEST, shape is ", &e->shape, stderr);
     return &e->shape;
 }

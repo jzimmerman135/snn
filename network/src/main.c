@@ -17,8 +17,10 @@
 void Network_build(Network_T network)
 {
     struct shape2_t l1_shape = {5, 1};
+    struct shape2_t l2_shape = {6, 1};
 
     Network_add_layer(network, &l1_shape);
+    Network_add_layer(network, &l2_shape);
 }
 
 
@@ -31,8 +33,8 @@ int main(int argc, char **argv)
     check_usage(argc);
     Reader_T train_data = Reader_new_from_argv(argv[1]);
     Reader_T test_data  = Reader_new_from_argv(argv[2]);
-    // Reader_print(train_data, 0);
-    // Reader_print(test_data, 0);
+    Reader_print(train_data, 0);
+    Reader_print(test_data, 0);
 
     shape2_t input_shape = Reader_shape_input(train_data);
     shape2_t label_shape = Reader_shape_label(train_data);
@@ -42,8 +44,6 @@ int main(int argc, char **argv)
 
     Model_train(network, train_data);
     Model_train(network, test_data);
-
-    fprintf(stderr, "Starting to free things\n");
 
     Network_free(&network);
     Reader_free(&train_data);

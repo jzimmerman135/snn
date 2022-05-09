@@ -32,11 +32,8 @@ float2_t float2_new(int x, int y)
 
 void float2_free(float2_t *f2)
 {
-    fprintf(stderr, "Gonna free a float2_t at %px, the member data I mean\n", (void*)(*f2));
     free((*f2)->data);
-    fprintf(stderr, "Gonna free a float2_t at %px\n", (void*)(*f2));
     free(*f2);
-    fprintf(stderr, "Successfully freed a float2\n");
     *f2 = NULL;
 }
 
