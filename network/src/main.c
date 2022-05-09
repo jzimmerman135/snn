@@ -8,6 +8,7 @@
 #include "helpful.h"
 #include "network.h"
 #include "matrix.h"
+#include "logger.h"
 
 /******************************************************************************
                     USE THIS TO DESIGN YOUR OWN NETWORK
@@ -28,16 +29,22 @@ void Network_build(Network_T network)
 
 
 /* function declarations */
+int check_usage(int argc);
 void Model_train(Network_T network, Reader_T train_data);
 Reader_T Reader_new_from_argv(char *argv);
 
 int main(int argc, char **argv)
 {
-    check_usage(argc);
+    int save_results = check_usage(argc);
     Reader_T train_data = Reader_new_from_argv(argv[1]);
     Reader_T test_data  = Reader_new_from_argv(argv[2]);
+    Log_T log = NULL;
+    if (save_results)
+        log = Log_open(argv[3]);
+
     Reader_print(train_data, 0);
     Reader_print(test_data, 0);
+
 
     shape2_t input_shape = Reader_shape_input(train_data);
     shape2_t label_shape = Reader_shape_label(train_data);
@@ -48,7 +55,9 @@ int main(int argc, char **argv)
     Model_train(network, train_data);
     Model_train(network, test_data);
 
+
     Network_free(&network);
+    Log_close(&log);
     Reader_free(&train_data);
     Reader_free(&test_data);
 }
@@ -87,4 +96,15 @@ Reader_T Reader_new_from_argv(char *argv)
     Reader_T data = Reader_new(fp);
     fclose(fp);
     return data;
+}
+
+int check_usage(int argc)
+{
+    if (argc < 3) {
+        fprintf(stderr, "Error: missing arguments from "
+                        "./program [training.data] [testing.data]\n");
+        exit(1);
+    }
+
+    return argc == 4; /* return true if log */
 }

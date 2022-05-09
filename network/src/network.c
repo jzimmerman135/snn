@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "network.h"
-#include "filter.h"
 #include "encoder.h"
 #include "classifier.h"
 #include "assert.h"
@@ -117,6 +116,7 @@ void Network_add_filter(Network_T net, shape2_t shape, int n_filters,
 }
 
 static inline void propagate_spikes(Network_T net);
+static inline void log_data(Network_T net, Log_T log, int cycle_no, int input_number);
 
 int Network_feed(Network_T net, float2_t input, float2_t label)
 {
@@ -148,6 +148,39 @@ static inline void propagate_spikes(Network_T net)
 
     spikes = Layer_feed(net->last_layer, spikes);
     Classifier_feed(net->classifier, spikes);
+}
+
+int Network_feed_and_log(Network_T net, Log_T log,
+                         float2_t input, float2_t label, int input_number)
+{
+    int decision, n_cycles = N_CYCLES;
+
+    Encoder_set_current(net->encoder, input->data);
+
+    for (int i = 0; i < n_cycles; i++) {
+        propagate_spikes(net);
+        log_data(net, log, i, input_number);
+    }
+
+    decision = Classifier_decision(net->classifier);
+    net->MSE = Classifier_MSE(net->classifier, label);
+    Classifier_reset(net->classifier);
+
+    return decision;
+}
+
+static inline void log_data(Network_T net, Log_T log, int cycle_no, int input_number)
+{
+    int n_filters = net->n_filters;
+    int n_layers  = net->n_layers;
+    int time = cycle_no + input_number * N_CYCLES;
+    for (int i = 0; i < n_filters; i++)
+        Log_filter(log, net->filters[i], time, i);
+
+    for (int i = 0; i < n_layers; i++)
+        Log_layer(log, net->layers[i], time, i);
+
+    Log_layer(log, net->last_layer, time, n_layers - 1);
 }
 
 static void resize_last_layer(Network_T net, shape2_t input_shape)

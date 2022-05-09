@@ -11,7 +11,7 @@ extern void fprintarrb(bit_t *arr, int n_elem, FILE *fp);
 extern void fprintshp(char *msg, void *shp, FILE *fp);
 
 /* main helpers */
-extern void check_usage(int argc);
+
 
 /* random float [0, 1] */
 extern float random_zero_one();

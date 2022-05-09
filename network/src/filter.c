@@ -2,18 +2,6 @@
 #include "spikemath.h"
 #include "assert.h"
 
-struct Filter_T {
-    struct shape2_t f_shape; /* shape of each feature map */
-    struct shape2_t output_shape; /* overall shape */
-
-    int n_filters;
-
-    Layer_T *layers;
-    bit2_t inter_inhibition;
-
-    bit2_t spikes;
-};
-
 Filter_T Filter_new(shape2_t filter_shape, shape2_t input_shape, int n_filters)
 {
     Filter_T filter = malloc(sizeof(struct Filter_T));

@@ -26,15 +26,6 @@ void fprintshp(char *msg, void *shp, FILE *fp)
     fprintf(fp, "%s[%i x %i]\n", msg, shape->x, shape->y);
 }
 
-void check_usage(int argc)
-{
-    if (argc < 3) {
-        fprintf(stderr, "Error: missing arguments from "
-                        "./program [training.data] [testing.data]\n");
-        exit(1);
-    }
-}
-
 float random_zero_one()
 {
     return (float)rand()/(float)(RAND_MAX);
