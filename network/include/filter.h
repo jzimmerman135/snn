@@ -10,7 +10,7 @@ extern Filter_T Filter_new(shape2_t filter_shape, shape2_t input_shape,
                            int n_filters);
 
 extern void Filter_free(Filter_T *filter);
-
+extern void Filter_set_params(Filter_T filter, param_t params);
 extern bit2_t Filter_feed(Filter_T filter, bit2_t synapse);
 extern shape2_t Filter_shape(Filter_T filter);
 

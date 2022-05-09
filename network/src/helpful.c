@@ -1,5 +1,6 @@
 #include "helpful.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "layer.h"
 
 void fprintarrf(float *arr, int n_elem, FILE *fp)
@@ -32,4 +33,9 @@ void check_usage(int argc)
                         "./program [training.data] [testing.data]\n");
         exit(1);
     }
+}
+
+float random_zero_one()
+{
+    return (float)rand()/(float)(RAND_MAX);
 }

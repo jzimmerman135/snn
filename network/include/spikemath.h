@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include "matrix.h"
 
+/* random distribute variance around initial val */
+extern void float2_randomize(float2_t f2, float base, float variance);
+
 /* add src to dest */
 extern void float2_addto(float2_t f2_dest, float2_t f2_src);
 
@@ -34,6 +37,5 @@ extern void bit2_zero(bit2_t b2);
 /* append src to dest at index i */
 /* must have same y value and dest x value must be multiple of y */
 extern void bit2_append(bit2_t b2_dest, bit2_t b2_src, int i);
-
 
 #endif

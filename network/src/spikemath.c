@@ -1,5 +1,14 @@
 #include "spikemath.h"
+#include "helpful.h"
 #include <string.h>
+
+void float2_randomize(float2_t f2, float base, float variance)
+{
+    int size = f2->x * f2->y;
+    float *fdata = f2->data;
+    for (int i = 0; i < size; i++)
+        fdata[i] = base + (2 * variance * random_zero_one() - variance);
+}
 
 void float2_addto(float2_t f2_dest, float2_t f2_src)
 {

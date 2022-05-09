@@ -18,9 +18,12 @@ void Network_build(Network_T network)
 {
     struct shape2_t l1_shape = {5, 1};
     struct shape2_t l2_shape = {6, 1};
+    struct param_t l1_param = { .w = 0.5, .w_var = 0.25,
+                                .a_p = 0.8, .a_d = 0.1, .b = 3.0,
+                                .thr = 8.1 };
 
-    Network_add_layer(network, &l1_shape);
-    Network_add_layer(network, &l2_shape);
+    Network_add_layer(network, &l1_shape, &l1_param);
+    Network_add_layer(network, &l2_shape, &l1_param);
 }
 
 

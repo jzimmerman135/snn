@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "network.h"
-#include "layer.h"
 #include "filter.h"
 #include "encoder.h"
 #include "classifier.h"
@@ -16,6 +15,7 @@ struct Network_T {
     int n_filters;
     int n_layers;
     Encoder_T encoder;
+    Layer_T last_layer;
     Classifier_T classifier;
     Filter_T *filters;
     Layer_T *layers;
@@ -31,6 +31,7 @@ Network_T Network_new(shape2_t input_shape, shape2_t label_shape)
 
     net->encoder    = Encoder_new(input_shape);
     net->classifier = Classifier_new(label_shape);
+    net->last_layer = Layer_new(label_shape, input_shape);
 
     net->n_layers  = 0;
     net->n_filters = 0;
@@ -49,7 +50,7 @@ void Network_free(Network_T *net)
     for (int i = 0; i < (*net)->n_layers; i++)
         Layer_free(&(*net)->layers[i]);
 
-
+    Layer_free(&(*net)->last_layer);
     Classifier_free(&(*net)->classifier);
     Encoder_free(&(*net)->encoder);
 
@@ -60,7 +61,9 @@ void Network_free(Network_T *net)
     *net = NULL;
 }
 
-void Network_add_layer(Network_T net, shape2_t shape)
+static void resize_last_layer(Network_T net, shape2_t input_shape);
+
+void Network_add_layer(Network_T net, shape2_t shape, param_t params)
 {
     net->layers = realloc(net->layers, sizeof(Layer_T) * (net->n_layers + 1));
     assert(net->layers);
@@ -76,13 +79,17 @@ void Network_add_layer(Network_T net, shape2_t shape)
     if (net->n_layers != 0)
         input = Layer_shape(net->layers[net->n_layers - 1]);
 
-
-    net->layers[net->n_layers] = Layer_new(shape, input);
-
+    Layer_T new_layer = Layer_new(shape, input);
+    if (params != NULL)
+        Layer_set_params(new_layer, params);
+    net->layers[net->n_layers] = new_layer;
     net->n_layers++;
+
+    resize_last_layer(net, shape);
 }
 
-void Network_add_filter(Network_T net, shape2_t shape, int n_filters)
+void Network_add_filter(Network_T net, shape2_t shape, int n_filters,
+                        param_t params)
 {
     /* filters must come before layers */
     assert(net->n_layers == 0);
@@ -98,8 +105,15 @@ void Network_add_filter(Network_T net, shape2_t shape, int n_filters)
     if (net->n_filters != 0)
         input = Filter_shape(net->filters[net->n_filters - 1]);
 
-    net->filters[net->n_filters] = Filter_new(shape, input, n_filters);
+    Filter_T new_filter = Filter_new(shape, input, n_filters);
+    if (params != NULL)
+        Filter_set_params(new_filter, params);
+    net->filters[net->n_filters] = new_filter;
     net->n_filters++;
+
+    if (net->n_layers == 0) {
+        resize_last_layer(net, shape);
+    }
 }
 
 static inline void propagate_spikes(Network_T net);
@@ -132,7 +146,14 @@ static inline void propagate_spikes(Network_T net)
     for (int i = 0; i < n_layers; i++)
         spikes = Layer_feed(net->layers[i], spikes);
 
+    spikes = Layer_feed(net->last_layer, spikes);
     Classifier_feed(net->classifier, spikes);
+}
+
+static void resize_last_layer(Network_T net, shape2_t input_shape)
+{
+    Layer_free(&net->last_layer);
+    net->last_layer = Layer_new(&net->label_shape, input_shape);
 }
 
 Layer_T Network_layer_at(Network_T net, int i)

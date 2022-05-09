@@ -1,5 +1,6 @@
 #include "filter.h"
 #include "spikemath.h"
+#include "assert.h"
 
 struct Filter_T {
     struct shape2_t f_shape; /* shape of each feature map */
@@ -60,4 +61,12 @@ bit2_t Filter_feed(Filter_T filter, bit2_t synapses)
 shape2_t Filter_shape(Filter_T filter)
 {
     return &filter->output_shape;
+}
+
+void Filter_set_params(Filter_T filter, param_t params)
+{
+    assert(params != NULL);
+    for (int i = 0; i < filter->n_filters; i++) {
+        Layer_set_params(filter->layers[i], params);
+    }
 }

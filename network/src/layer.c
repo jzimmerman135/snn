@@ -74,6 +74,23 @@ void Layer_connect_inhibition(Layer_T layer, bit2_t inh_matrix)
     layer->inter_inhibition = inh_matrix;
 }
 
+void Layer_initialize_weights(Layer_T layer, float init, float variance)
+{
+    int n_neurons = Layer_size(layer);
+    for (int i = 0; i < n_neurons; i++)
+        float2_randomize(layer->weights[i], init, variance);
+}
+
+void Layer_set_params(Layer_T layer, param_t params)
+{
+    assert(params != NULL);
+    Layer_initialize_weights(layer, params->w, params->w_var);
+    layer->potentiation = params->a_p;
+    layer->depression   = params->a_d;
+    layer->beta         = params->b;
+    layer->threshold    = params->thr;
+}
+
 bit2_t Layer_feed(Layer_T layer, bit2_t synapses)
 {
     Layer_accumulate(layer, synapses);
