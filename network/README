@@ -165,7 +165,8 @@ What is the timestamp?
 
 ================ example.out =================
 
-Layer,row,column,voltage,stdp,time,weight_array,
-X,x,x,x,x,x,[x,x]
+neuron_index,time,layer,layer_dimensions,row,column,voltage,stdp,weight_array,
+X,x,x,(x,y),x,x,x,x,[x,x],
+15,0.5,3,(4,6),4,3,130,-40,[10,20,30,40,20,30,10,20,30,40,20,30,10,20,30,40,20,30,10,20,30,40,20,30]
 
 ==============================================
