@@ -152,29 +152,16 @@ static inline void propagate_spikes(Network_T net)
     int n_layers  = net->n_layers;
     bit2_t spikes = Encoder_spikes(net->encoder);
 
-    // printf("\n======================================\n");
-
-    // fprintarrb(spikes->data, spikes->x * spikes->y, stdout);
-
     for (int i = 0; i < n_filters; i++) {
         spikes = Filter_feed(net->filters[i], spikes);
-        // fprintarrb(spikes->data, spikes->x * spikes->y, stdout);
     }
 
     for (int i = 0; i < n_layers; i++) {
         spikes = Layer_feed(net->layers[i], spikes);
-        // fprintarrb(spikes->data, spikes->x * spikes->y, stdout);
-        // fprintarrf(net->layers[i]->voltages->data, net->layers[i]->shape.x * net->layers[i]->shape.y, stdout);
     }
 
     spikes = Layer_feed(net->last_layer, spikes);
-    // fprintarrb(spikes->data, spikes->x * spikes->y, stdout);
-    // fprintarrf(net->last_layer->voltages->data, net->last_layer->shape.x * net->last_layer->shape.y, stdout);
-
     Classifier_feed(net->classifier, spikes);
-
-
-    // printf("======================================\n\n");
 }
 
 static inline void log_data(Network_T net, Log_T log)
