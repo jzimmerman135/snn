@@ -7,14 +7,13 @@ Log_T Log_open(char *filename)
 {
     /* add path to filename */
     Log_T log = malloc(sizeof(struct Log_T));
-    char path[50] = "./analysis/output/";
-    strcat(path, filename);
-    filename = path;
-
-    /* add modifiers before creating file */
-    strcat(filename, ".out");
 
     log->fp = fopen(filename,"w");
+    if (log->fp == NULL) {
+        fprintf(stderr, "Error: failed to open log file %s\n", filename);
+        exit(1);
+    }
+
     log->line_count = 0;
     log->time = 0;
     log->input_index = 0;
