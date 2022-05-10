@@ -62,8 +62,10 @@ void Network_free(Network_T *net)
 
 static void resize_last_layer(Network_T net, shape2_t input_shape);
 
-void Network_add_layer(Network_T net, shape2_t shape, param_t params)
+void Network_add_layer(Network_T net, param_t params)
 {
+    struct shape2_t shape = {params->x, params->y};
+
     net->layers = realloc(net->layers, sizeof(Layer_T) * (net->n_layers + 1));
     assert(net->layers);
 
@@ -78,20 +80,20 @@ void Network_add_layer(Network_T net, shape2_t shape, param_t params)
     if (net->n_layers != 0)
         input = Layer_shape(net->layers[net->n_layers - 1]);
 
-    Layer_T new_layer = Layer_new(shape, input);
+    Layer_T new_layer = Layer_new(&shape, input);
     if (params != NULL)
         Layer_set_params(new_layer, params);
     net->layers[net->n_layers] = new_layer;
     net->n_layers++;
 
-    resize_last_layer(net, shape);
+    resize_last_layer(net, &shape);
 }
 
-void Network_add_filter(Network_T net, shape2_t shape, int n_filters,
-                        param_t params)
+void Network_add_filter(Network_T net, param_t params, int n_filters)
 {
     /* filters must come before layers */
     assert(net->n_layers == 0);
+    struct shape2_t shape = {params->x, params->y};
 
     net->filters = realloc(net->filters,
                            sizeof(Filter_T) * (net->n_filters + 1));
@@ -104,14 +106,14 @@ void Network_add_filter(Network_T net, shape2_t shape, int n_filters,
     if (net->n_filters != 0)
         input = Filter_shape(net->filters[net->n_filters - 1]);
 
-    Filter_T new_filter = Filter_new(shape, input, n_filters);
+    Filter_T new_filter = Filter_new(&shape, input, n_filters);
     if (params != NULL)
         Filter_set_params(new_filter, params);
     net->filters[net->n_filters] = new_filter;
     net->n_filters++;
 
     if (net->n_layers == 0) {
-        resize_last_layer(net, shape);
+        resize_last_layer(net, &shape);
     }
 }
 
@@ -206,4 +208,30 @@ Filter_T Network_filter_at(Network_T net, int i)
 {
     assert(i >= 0 && i < net->n_filters);
     return net->filters[i];
+}
+
+void Network_print_topography(Network_T net)
+{
+    int n_filters = net->n_filters;
+    int n_layers  = net->n_layers;
+
+    fprintshp("The input shape is ", &net->input_shape, stderr);
+
+    for (int i = 0; i < n_filters; i++) {
+        fprintf(stderr, "Filter %i has %i layers with ",
+                        i, net->filters[i]->n_filters);
+        fprintshp("shape ", Filter_shape(net->filters[i]), stderr);
+    }
+
+    for (int i = 0; i < n_layers; i++) {
+        fprintf(stderr, "Layer %i has ", i);
+        fprintshp("shape ", Layer_shape(net->layers[i]), stderr);
+    }
+
+    fprintf(stderr, "Layer %i has ", n_layers);
+    fprintshp("shape ", Layer_shape(net->last_layer), stderr);
+
+    fprintshp("The output shape is ", &net->label_shape, stderr);
+
+
 }

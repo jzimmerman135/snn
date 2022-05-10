@@ -15,22 +15,32 @@
 
                      remember: filters must come first
 
-          first define layer size with a struct shape2_t => { x_dim, y_dim }
-then define parameters with struct param =>  { initial_weight, init_w_variance,
+          first define layer parameters with param_t =>
+                          {  x_dim, y_dim,
+                            initial_weight, init_w_variance,
                             potentation rate, depression rate, beta learn rate,
                             membrance threshold potential }
+
+         then add layer or filter with those parameters
 
 ******************************************************************************/
 void Network_build(Network_T network)
 {
-    struct shape2_t l1_shape = {5, 1};
-    struct shape2_t l2_shape = {6, 1};
-    struct param_t l1_param = { .w = 0.5, .w_var = 0.25,
-                                .a_p = 0.16, .a_d = 0.02, .b = 1.0,
+    struct param_t l1_param = { .x = 5, .y = 1,
+                                .w = 0.5, .w_var = 0.25,
+                                .a_p = 0.16, .a_d = 0.02, .b = 2.0,
                                 .thr = 8.02 };
 
-    Network_add_layer(network, &l1_shape, &l1_param);
-    Network_add_layer(network, &l2_shape, &l1_param);
+    struct param_t l2_param = { .x = 6, .y = 1,
+                                .w = 0.6, .w_var = 0.25,
+                                .a_p = 0.24, .a_d = 0.03, .b = 3.0,
+                                .thr = 6.0 };
+
+    Network_add_layer(network, &l1_param);
+    Network_add_layer(network, &l2_param);
+
+
+    Network_print_topography(network);
 }
 
 

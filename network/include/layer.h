@@ -14,6 +14,8 @@ struct shape2_t {
 /* parameters to initialize a layer */
 typedef struct param_t *param_t;
 struct param_t {
+    int x;
+    int y;
     float w;
     float w_var;
     float a_p; /* alpha potentiation */
