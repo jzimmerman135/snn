@@ -188,7 +188,7 @@ static inline void log_data(Network_T net, Log_T log)
     for (int i = 0; i < n_layers; i++)
         Log_layer(log, net->layers[i], (i + 1));
 
-    Log_layer(log, net->last_layer, n_layers);
+    Log_layer(log, net->last_layer, (n_layers + 1));
 }
 
 static void resize_last_layer(Network_T net, shape2_t input_shape)
