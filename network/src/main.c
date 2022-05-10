@@ -131,7 +131,7 @@ Log_T Log_open_from_argv(char *argv)
     strcat(filename, argv);
 
     /* add modifiers before creating file */
-    strcat(filename, ".out");
+    strcat(filename, ".csv");
     fprintf(stderr, "Logging data in %s\n", filename);
 
     return Log_open(filename);

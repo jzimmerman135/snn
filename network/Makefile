@@ -4,6 +4,7 @@ LDFLAGS  := -lm
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
 APP_DIR  := $(BUILD)/apps
+LOG_DIR  := ./analysis/output
 TARGET   := program
 INCLUDE  := -Iinclude/
 SRC      := $(wildcard src/*.c)
@@ -43,6 +44,10 @@ leak:
 clean:
 	-@rm -rvf $(OBJ_DIR)/*
 	-@rm -rvf $(APP_DIR)/*
+
+clear_log:
+	-@rm -f $(LOG_DIR)/*
+	@echo "Log directory emptied"
 
 info:
 	@echo "[*] Application dir: ${APP_DIR}     "
