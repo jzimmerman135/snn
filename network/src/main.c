@@ -10,7 +10,7 @@
 #include "matrix.h"
 #include "logger.h"
 
-#define PASSES 3
+#define PASSES 40
 
 /******************************************************************************
                 USE THIS TO FUNCTION TO DESIGN YOUR OWN NETWORK
@@ -59,12 +59,17 @@ Log_T Log_open_from_argv(char *argv);
 int main(int argc, char **argv)
 {
     int save_results = check_usage(argc);
+
+    fprintf(stderr, "Welcome to STDP SNN by Jacob Z and Jake B\n\n");
+
     Reader_T train_data = Reader_new_from_argv(argv[1]);
     Reader_T test_data  = Reader_new_from_argv(argv[2]);
     Log_T log = NULL;
     if (save_results) {
         log = Log_open_from_argv(argv[3]);
     }
+
+
 
     shape2_t input_shape = Reader_shape_input(train_data);
     shape2_t label_shape = Reader_shape_label(train_data);
@@ -94,7 +99,8 @@ void Model_train(Network_T network, Reader_T train_data, Log_T log)
     for (int i = 0; i < n_training_examples; i++) {
         input.data = Reader_input(train_data, i);
         label.data = Reader_label(train_data, i);
-        log->input_index = i;
+        if (log != NULL)
+            log->input_index = i;
 
         Network_feed(network, &input, &label, log);
     }

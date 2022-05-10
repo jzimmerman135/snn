@@ -128,7 +128,6 @@ int Network_feed(Network_T net, float2_t input, float2_t label, Log_T log)
 
     if (log == NULL) {
         for (int i = 0; i < n_cycles; i++) {
-            log->time =  log->input_index * n_cycles + i;
             propagate_spikes(net);
         }
     } else {
@@ -214,24 +213,18 @@ void Network_print_topography(Network_T net)
 {
     int n_filters = net->n_filters;
     int n_layers  = net->n_layers;
-
-    fprintshp("The input shape is ", &net->input_shape, stderr);
-
+    fprintshp("\nThe input shape is ", &net->input_shape, stderr);
     for (int i = 0; i < n_filters; i++) {
         fprintf(stderr, "Filter %i has %i layers with ",
                         i, net->filters[i]->n_filters);
         fprintshp("shape ", Filter_shape(net->filters[i]), stderr);
     }
-
     for (int i = 0; i < n_layers; i++) {
         fprintf(stderr, "Layer %i has ", i);
         fprintshp("shape ", Layer_shape(net->layers[i]), stderr);
     }
-
     fprintf(stderr, "Layer %i has ", n_layers);
     fprintshp("shape ", Layer_shape(net->last_layer), stderr);
-
     fprintshp("The output shape is ", &net->label_shape, stderr);
-
-
+    fprintf(stderr, "\n");
 }
