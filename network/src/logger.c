@@ -1,18 +1,25 @@
 #include "logger.h"
-
 #include "string.h"
+
+#define MAX_LINES 100000
 
 Log_T Log_open(char *filename)
 {
     /* add path to filename */
-    char path[50] = "../analysis/output/";
+    Log_T log = malloc(sizeof(struct Log_T));
+    char path[50] = "./analysis/output/";
     strcat(path, filename);
     filename = path;
 
     /* add modifiers before creating file */
     strcat(filename, ".out");
 
-    return fopen(filename,"w");
+    log->fp = fopen(filename,"w");
+    log->line_count = 0;
+    log->time = 0;
+    log->input_index = 0;
+
+    return log;
 }
 
 void Log_close(Log_T *log)
@@ -20,7 +27,8 @@ void Log_close(Log_T *log)
     if (*log == NULL)
         return;
 
-    fclose((*log));
+    fclose((*log)->fp);
+    free(*log);
     *log = NULL;
 }
 
@@ -29,20 +37,26 @@ void Log_close(Log_T *log)
            id: a0b means filter a - 1, layer b
 */
 
-void Log_layer(Log_T log, Layer_T layer, int time, int id)
+void Log_layer(Log_T log, Layer_T layer, int id)
 {
-    fprintf(log, "%i, %i, %i\n",
-            Layer_size(layer), time, id);
+    if (++log->line_count > MAX_LINES) {
+        if (log->line_count == MAX_LINES)
+            fprintf(stderr, "Error: Max log lines exceeded, logging ended\n");
+        else
+            return;
+    }
+
+    fprintf(log->fp, "%i, %i, %i\n", Layer_size(layer), log->time, id);
 }
 
-void Log_filter(Log_T log, Filter_T filter, int time, int id)
+void Log_filter(Log_T log, Filter_T filter, int id)
 {
     int size = filter->n_filters;
     for (int i = 0; i < size; i++)
-        Log_layer(log, filter->layers[i], time, id + ((i + 1) * 100));
+        Log_layer(log, filter->layers[i], id + ((i + 1) * 100));
 }
 
 void Log_print_head(Log_T log)
 {
-    fprintf(log, "a, b, c, d, e\n");
+    fprintf(log->fp, "a, b, c, d, e\n");
 }

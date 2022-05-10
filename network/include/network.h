@@ -14,11 +14,8 @@ extern void Network_free(Network_T *net);
 extern void Network_add_layer(Network_T net, shape2_t shape, param_t params);
 extern void Network_add_filter(Network_T net, shape2_t shape, int n_filters,
                                param_t params);
-extern int Network_feed(Network_T net, float2_t input, float2_t label);
-
-extern int Network_feed_and_log(Network_T net, Log_T log,
-                                float2_t input, float2_t label, int input_idx);
-
+extern int Network_feed(Network_T net, float2_t input, float2_t label,
+                        Log_T log);
 extern Layer_T Network_layer_at(Network_T net, int i);
 extern Filter_T Network_filter_at(Network_T net, int i);
 

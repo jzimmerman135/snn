@@ -40,9 +40,6 @@ Layer_T Layer_new(shape2_t output_shape, shape2_t input_shape)
     layer->depression    = 0.1;
     layer->beta          = 0.02;
 
-    fprintshp("ADDED A NEW LAYER! ", &layer->shape, stderr);
-    fprintshp("New layer's input has ", &layer->input_shape, stderr);
-
     return layer;
 }
 
