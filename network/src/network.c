@@ -183,10 +183,10 @@ static inline void log_data(Network_T net, Log_T log)
     int n_layers  = net->n_layers;
 
     for (int i = 0; i < n_filters; i++)
-        Log_filter(log, net->filters[i], i);
+        Log_filter(log, net->filters[i], (i + 1) * n_filters + (i + 1));
 
     for (int i = 0; i < n_layers; i++)
-        Log_layer(log, net->layers[i], i);
+        Log_layer(log, net->layers[i], (i + 1));
 
     Log_layer(log, net->last_layer, n_layers);
 }

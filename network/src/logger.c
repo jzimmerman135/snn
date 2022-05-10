@@ -67,7 +67,7 @@ void Log_layer(Log_T log, Layer_T layer, int id)
         float *w        = layer->weights[i]->data;
 
         fprintf(log->fp, "%i,%i,%i,%i,%.3f,%.3f,",
-                t, input_idx, idx, id, v, stdp);
+                t, input_idx, idx + 1, id, v, stdp);
 
         for (int j = 0; j < n_input_neurons; j++) {
             fprintf(log->fp, "%.3f,", w[j]);
