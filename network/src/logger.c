@@ -70,10 +70,11 @@ void Log_layer(Log_T log, Layer_T layer, int id)
                 t, input_idx, idx + 1, id, v, stdp);
 
         for (int j = 0; j < n_input_neurons; j++) {
-            fprintf(log->fp, "%.3f,", w[j]);
+            if (j == n_input_neurons-1) fprintf(log->fp, "%.3f", w[j]);
+            else fprintf(log->fp, "%.3f ", w[j]);
         }
 
-        fprintf(log->fp,"\b\n");
+        fprintf(log->fp,"\n");
     }
 }
 
