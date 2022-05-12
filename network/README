@@ -16,19 +16,28 @@
 
     Run:
     -----
-        ./run train_file.data test_file.data log_filename.out
+        ./run train_file.data test_file.data log_filename
 
+   
+    Customize:
+    ----------
+	Building a custom architecture is easy using the build_network function at the 
+	top of main.c, just define hyper parameters and add layer or filter.
 
-*******************************************************************************
+    Example usage:
+    --------------
+	./make_data make_xor.py
+	./run xor.data xor.data xor_log
 
-                                TIMELINE
+    This will produce a rather large csv file with the runtime data.
+    When classification works we will build a better interface to see it
+    learning.
 
--------------------------------------------------------------------------------
-
-    Finish pulser module with gaussian mean firing rate
-
-
-    Simulate a layer for 10 rounds.
+	
+    Reach out to jacob.zimmerman135@gmail.com for questions about the C program
+    
+    Reach out to jacob.blum@tufts.edu for questions about the data processing 
+    and analyis
 
 *******************************************************************************
 
