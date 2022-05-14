@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
-    <link rel="stylesheet" href="./styles/neuron.css">
-    <link rel="stylesheet" href="./styles/background.css">
+    <link rel="stylesheet" href="./visualizer/styles/neuron.css">
+    <link rel="stylesheet" href="./visualizer/styles/background.css">
     <title>Neuron Test</title>
 </head>
 <body>
         <div class="title">
            Spiking Neuron Visualizer
         </div>
-        
+
         <form name="buttons" class="buttons">
             <label >
                 <input class="button" type="checkbox" name="dragMode">
@@ -48,13 +48,13 @@
                 <input class="button" type="checkbox" name="play">
                 <div><span class="material-icons">play_arrow</span></div>
             </label>
-        </form> 
-        
+        </form>
+
         <div id="board">
             <div id="ioDiv">
             </div>
         </div>
-        
+
 </body>
 <script src="./visualizer/src/neuron.js"></script>
 <script src="./visualizer/src/connection.js"></script>
