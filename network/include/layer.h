@@ -30,7 +30,6 @@ struct Layer_T {
     struct shape2_t input_shape;
 
     /* n_neurons == shape.x * shape.y */
-
     float2_t *weights; /* n_neurons x [input shape] */
     bit2_t   *syn_pre; /* n_neurons x [input shape] */
 

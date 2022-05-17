@@ -8,6 +8,11 @@
 
 #define N_CYCLES 2000
 
+/* fwd declarations */
+static void resize_last_layer(Network_T net, shape2_t input_shape);
+static inline void propagate_spikes(Network_T net);
+static inline void log_data(Network_T net, Log_T log);
+
 struct Network_T {
     struct shape2_t input_shape;
     struct shape2_t label_shape;
@@ -59,8 +64,6 @@ void Network_free(Network_T *net)
     free(*net);
     *net = NULL;
 }
-
-static void resize_last_layer(Network_T net, shape2_t input_shape);
 
 void Network_add_layer(Network_T net, param_t params)
 {
@@ -117,9 +120,6 @@ void Network_add_filter(Network_T net, param_t params, int n_filters)
     }
 }
 
-static inline void propagate_spikes(Network_T net);
-static inline void log_data(Network_T net, Log_T log);
-
 int Network_feed(Network_T net, float2_t input, float2_t label, Log_T log)
 {
     int decision, n_cycles = N_CYCLES;
@@ -127,25 +127,28 @@ int Network_feed(Network_T net, float2_t input, float2_t label, Log_T log)
     Encoder_set_current(net->encoder, input->data);
 
     if (log == NULL) {
-        for (int i = 0; i < n_cycles; i++) {
+        for (int i = 0; i < n_cycles; i++) { /* run but don't store results */
             propagate_spikes(net);
         }
     } else {
-        for (int i = 0; i < n_cycles; i++) {
-            log->time = log->input_index * n_cycles + i;
+        for (int i = 0; i < n_cycles; i++) { /* run and store results */
             propagate_spikes(net);
+
+            /* for log */
+            log->time = log->input_index * n_cycles + i;
             log_data(net, log);
         }
     }
 
     decision = Classifier_decision(net->classifier);
     net->MSE = Classifier_MSE(net->classifier, label);
-    // Classifier_print_summary(net->classifier);
+
     Classifier_reset(net->classifier);
 
     return decision;
 }
 
+/* let spikes run through the network */
 static inline void propagate_spikes(Network_T net)
 {
     int n_filters = net->n_filters;

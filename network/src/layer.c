@@ -6,6 +6,8 @@
 
 void Layer_accumulate(Layer_T layer, bit2_t synapses);
 void Layer_train(Layer_T layer);
+static inline float potentiate(float weight, float potentiation, float beta);
+static inline float depress(float weight, float depression);
 
 Layer_T Layer_new(shape2_t output_shape, shape2_t input_shape)
 {
@@ -107,7 +109,6 @@ void Layer_accumulate(Layer_T layer, bit2_t synapses)
     bit2_t inf          = layer->inferences;
     bit2_t stdp         = layer->stdp_spikes;
     bit2_t ext_inh      = layer->inter_inhibition;
-
     int n_neurons = Layer_size(layer);
 
     /* add incoming synapses to syn_pre, to track which synapses have fired since
@@ -144,9 +145,6 @@ void Layer_accumulate(Layer_T layer, bit2_t synapses)
         float2_inv_binset(v_stdp, ext_inh);
     }
 }
-
-static inline float potentiate(float weight, float potentiation, float beta);
-static inline float depress(float weight, float depression);
 
 void Layer_train(Layer_T layer)
 {

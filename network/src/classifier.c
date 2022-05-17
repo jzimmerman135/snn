@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "classifier.h"
+#include "helpful.h"
 
 struct Classifier_T {
     struct shape2_t shape;
-
     float accuracy;
     int2_t accumulators;
 };
