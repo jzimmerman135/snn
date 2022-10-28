@@ -18,6 +18,7 @@ body {
     font-family: Disco;
     src: url("../misc/mexcellent_rg.otf");
 }
+
 .title {
     font-size: 60px;
     text-align: left;
@@ -25,8 +26,8 @@ body {
     font-family: Disco;
     color: #00BFA5;
     text-shadow:
-    5px 5px #304FFE,
-    10px 10px #283593;
+        5px 5px #304FFE,
+        10px 10px #283593;
 }
 
 .buttons {

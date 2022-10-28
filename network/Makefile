@@ -28,6 +28,9 @@ $(APP_DIR)/$(TARGET): $(OBJECTS)
 
 .PHONY: all build clean debug release info
 
+learn:
+	echo $(OBJECTS)
+
 build:
 	@mkdir -p $(APP_DIR)
 	@mkdir -p $(OBJ_DIR)
