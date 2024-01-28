@@ -1,108 +1,121 @@
 body {
-    background: #1b2328;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 10px;
+  background: #1b2328;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 10px;
 }
 
 .container {
-    margin:auto;
-    height: 500px;
-    width: 500px;
-    border: 2px solid #ffffff;
-    z-index: 0;
+  margin: auto;
+  height: 500px;
+  width: 500px;
+  border: 2px solid #ffffff;
+  z-index: 0;
 }
 
 @font-face {
-    font-family: Disco;
-    src: url("../misc/mexcellent_rg.otf");
+  font-family: Disco;
+  src: url("../misc/mexcellent_rg.otf");
+}
+
+.toprow {
+  font-family: "Courier New", Courier, monospace;
+  align-items: flex-end;
+  display: flex;
+  width: 100%;
+  color: #6d6d6d;
+  gap: 40px;
+}
+
+a,
+a:visited {
+  font-size: 1.2em;
+  color: inherit;
 }
 
 .title {
-    font-size: 60px;
-    text-align: left;
-    margin-left: 10px;
-    font-family: Disco;
-    color: #00BFA5;
-    text-shadow:
-        5px 5px #304FFE,
-        10px 10px #283593;
+  font-size: 60px;
+  text-align: left;
+  margin-left: 10px;
+  font-family: Disco;
+  color: #00bfa5;
+  text-shadow: 5px 5px #304ffe, 10px 10px #283593;
 }
 
 .buttons {
-    margin-left: 50px;
-    display: flex;
-    vertical-align: auto;
+  margin-left: 50px;
+  display: flex;
+  vertical-align: auto;
 }
 .button {
-    display: none;
+  display: none;
 }
 
-.button + div{
-    background-color: #2d3f48;
-    height: 40px;
-    width: 40px;
-    margin: 10px;
-    border-radius: 25%;
-    box-shadow: 4px 4px 4px 2px #131618;
-    display: flex;
-    font-size: 25px;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
-    color: #131618;
-    cursor: pointer;
-    -webkit-user-select:none;
-    -khtml-user-select:none;
-    -moz-user-select:none;
-    -o-user-select:none;
-    user-select:none;
+.button + div {
+  background-color: #2d3f48;
+  height: 40px;
+  width: 40px;
+  margin: 10px;
+  border-radius: 25%;
+  box-shadow: 4px 4px 4px 2px #131618;
+  display: flex;
+  font-size: 25px;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  color: #131618;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 .button:hover + div {
-    transform: translateX(1px) translateY(1px);
-    box-shadow: 3px 3px 1px #131618;
-    background-color: #385361;
+  transform: translateX(1px) translateY(1px);
+  box-shadow: 3px 3px 1px #131618;
+  background-color: #385361;
 }
 
-.button:checked + div{
-    transform: translateX(1px) translateY(1px);
-    box-shadow: 3px 3px 1px #131618;
-    background-color: #3e5c6c;
+.button:checked + div {
+  transform: translateX(1px) translateY(1px);
+  box-shadow: 3px 3px 1px #131618;
+  background-color: #3e5c6c;
 }
 
 .button[name="play"]:checked + div {
-    background-color: #792727;
-    transform: translateX(1px) translateY(1px) scaleX(1.2);
-    box-shadow: 3px 3px 1px #131618;
+  background-color: #792727;
+  transform: translateX(1px) translateY(1px) scaleX(1.2);
+  box-shadow: 3px 3px 1px #131618;
 }
 
 #board {
-    margin-top: 10px;
-    border: 3px solid #131618;
-    border-radius: 25px;
-    height: 72vh;
-    width: 100%;
+  margin-top: 10px;
+  border: 3px solid #131618;
+  border-radius: 25px;
+  height: 72vh;
+  width: 100%;
 }
 
 #demoBox {
-    height: 5px;
-    width: 5px;
-    background: #792727;
-    border-radius: 10%;
-    display: block;
-    position: absolute; 
-    top: 200px;
-    left: 300px;
-    z-index: 3;
-    transition: 0.5s;
+  height: 5px;
+  width: 5px;
+  background: #792727;
+  border-radius: 10%;
+  display: block;
+  position: absolute;
+  top: 200px;
+  left: 300px;
+  z-index: 3;
+  transition: 0.5s;
 }
 
 #ioDiv {
-    position: absolute;
-    width: inherit;
-    height: inherit;
-    top: inherit;
-    left: inherit;
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  top: inherit;
+  left: inherit;
 }
